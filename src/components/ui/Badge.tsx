@@ -2,7 +2,7 @@ import React from 'react';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'amber' | 'indigo' | 'success' | 'warning' | 'danger' | 'neutral';
+  variant?: 'emerald' | 'slate' | 'success' | 'warning' | 'danger' | 'neutral';
   dot?: boolean;
   className?: string;
   size?: 'sm' | 'md';
@@ -16,43 +16,43 @@ export const Badge: React.FC<BadgeProps> = ({
   size = 'md'
 }) => {
   const sizeClasses = {
-    sm: 'h-7 px-3 text-[13px]',
-    md: 'h-8 px-3.5 text-[14px]'
+    sm: 'h-6 px-2.5 text-[12px]',
+    md: 'h-7 px-3 text-[13px]'
   }[size];
 
   const variantStyles = {
-    amber: {
-      bg: 'bg-[#F59E0B]/12 border-[#F59E0B]/25 text-[#F59E0B]',
-      dot: 'bg-[#F59E0B]'
-    },
-    indigo: {
-      bg: 'bg-[#6366F1]/12 border-[#6366F1]/25 text-[#A5B4FC]',
-      dot: 'bg-[#6366F1]'
+    emerald: {
+      bg: 'bg-[rgba(47,191,143,0.12)] border-[rgba(47,191,143,0.25)] text-[#2FBF8F]',
+      dot: 'bg-[#2FBF8F]'
     },
     success: {
-      bg: 'bg-[#34D399]/12 border-[#34D399]/25 text-[#34D399]',
-      dot: 'bg-[#34D399]'
+      bg: 'bg-[rgba(47,191,143,0.12)] border-[rgba(47,191,143,0.25)] text-[#2FBF8F]',
+      dot: 'bg-[#2FBF8F]'
+    },
+    slate: {
+      bg: 'bg-[rgba(124,141,181,0.12)] border-[rgba(124,141,181,0.25)] text-[#7C8DB5]',
+      dot: 'bg-[#7C8DB5]'
     },
     warning: {
-      bg: 'bg-[#FBBF24]/12 border-[#FBBF24]/25 text-[#FBBF24]',
-      dot: 'bg-[#FBBF24]'
+      bg: 'bg-[rgba(201,166,107,0.12)] border-[rgba(201,166,107,0.25)] text-[#C9A66B]',
+      dot: 'bg-[#C9A66B]'
     },
     danger: {
-      bg: 'bg-[#F87171]/12 border-[#F87171]/25 text-[#F87171]',
-      dot: 'bg-[#F87171]'
+      bg: 'bg-[rgba(224,122,122,0.12)] border-[rgba(224,122,122,0.25)] text-[#E07A7A]',
+      dot: 'bg-[#E07A7A]'
     },
     neutral: {
-      bg: 'bg-white/[0.06] border-white/[0.12] text-[#A1A1AA]',
-      dot: 'bg-[#A1A1AA]'
+      bg: 'bg-[rgba(148,163,184,0.08)] border-[rgba(148,163,184,0.18)] text-[#9AA4B2]',
+      dot: 'bg-[#9AA4B2]'
     }
   }[variant];
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border font-mono font-medium tracking-tight select-none ${sizeClasses} ${variantStyles.bg} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border font-mono font-medium tracking-tight select-none whitespace-nowrap shrink-0 ${sizeClasses} ${variantStyles.bg} ${className}`}
     >
-      {dot && <span className={`h-2 w-2 rounded-full shrink-0 ${variantStyles.dot}`} />}
-      <span className="truncate">{children}</span>
+      {dot && <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${variantStyles.dot}`} />}
+      <span className="whitespace-nowrap">{children}</span>
     </span>
   );
 };

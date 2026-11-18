@@ -2,22 +2,15 @@ import React, { useState } from 'react';
 import { 
   Radar, 
   MapPin, 
-  Layers, 
-  Users, 
-  Search, 
   Play, 
   UploadCloud, 
-  FileSpreadsheet, 
   Globe2, 
   Ship, 
   Store, 
-  Sparkles, 
-  CheckCircle2, 
-  Terminal, 
+  Check, 
   RefreshCw, 
   Download, 
-  Briefcase,
-  Check
+  Briefcase 
 } from 'lucide-react';
 import { ProductCategory, BuyerPersona, LeadSource, Lead } from '../types';
 import { PageHero } from '../components/ui/PageHero';
@@ -40,7 +33,6 @@ const US_GEO_DATA: Record<string, string[]> = {
 };
 
 export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalLeadsCount }) => {
-  // Filter States
   const [category, setCategory] = useState<ProductCategory>('Singing Bowls');
   const [selectedState, setSelectedState] = useState<string>('Texas');
   const [selectedCity, setSelectedCity] = useState<string>('Houston');
@@ -51,16 +43,13 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
     'Importers'
   ]);
   
-  // Active Source Connector Tab
   const [activeSource, setActiveSource] = useState<LeadSource | 'CSV Upload'>('Google Maps Scraper');
   
-  // Terminal / Progress Simulation State
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
   const [scanLogs, setScanLogs] = useState<string[]>([]);
   const [scanCompleted, setScanCompleted] = useState(false);
 
-  // Toggle Persona
   const togglePersona = (p: BuyerPersona) => {
     if (selectedPersonas.includes(p)) {
       if (selectedPersonas.length > 1) {
@@ -71,34 +60,30 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
     }
   };
 
-  // Run Discovery Scan Simulation
   const handleRunScan = () => {
     setIsScanning(true);
-    setScanProgress(10);
+    setScanProgress(15);
     setScanCompleted(false);
     setScanLogs([
-      `[00:00] Initializing TradePulse Discovery Engine (Country: United States)...`,
-      `[00:01] Targeted Corridor: ${selectedState} ➔ ${selectedCity} for [${category}]`,
-      `[00:02] Querying ${activeSource} connector endpoints...`
+      `[00:01] TradePulse Engine active: US Corridor -> ${selectedState} (${selectedCity})`,
+      `[00:02] Querying ${activeSource} endpoints for [${category}]...`
     ]);
 
     setTimeout(() => {
-      setScanProgress(40);
+      setScanProgress(50);
       setScanLogs(prev => [
         ...prev,
-        `[00:03] Scraping places & showroom entities in ${selectedCity}, ${selectedState}...`,
-        `[00:04] Found candidate businesses matching personas: ${selectedPersonas.join(', ')}`,
-        `[00:05] Inspecting DOM metadata for buyer emails, phone numbers & tax IDs...`
+        `[00:04] Scraping place entities in ${selectedCity}, ${selectedState}...`,
+        `[00:05] Matching personas: ${selectedPersonas.join(', ')}`
       ]);
     }, 1200);
 
     setTimeout(() => {
-      setScanProgress(75);
+      setScanProgress(80);
       setScanLogs(prev => [
         ...prev,
-        `[00:06] Cross-referencing US Customs ImportYeti manifests for HS 9206.00 imports...`,
-        `[00:07] Running anti-duplicate filter against current database (${totalLeadsCount} records)...`,
-        `[00:08] Gemini 3.8 AI preliminary relevance scoring initialized...`
+        `[00:07] Cross-referencing US Customs manifests for HS 9206.00...`,
+        `[00:08] Running anti-duplicate check against ${totalLeadsCount} records...`
       ]);
     }, 2400);
 
@@ -106,9 +91,9 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
       setScanProgress(100);
       setScanLogs(prev => [
         ...prev,
-        `[00:09] SUCCESS: Ingested 2 high-quality verified US buyers into database!`,
-        `[00:09] 1. "${selectedCity} Tibetan Sound Temple" (${selectedCity}, ${selectedState}) - Valid Email + Phone`,
-        `[00:09] 2. "${selectedState} Artisan Living & Imports" (${selectedCity}, ${selectedState}) - ImportYeti Verified`
+        `[00:09] SUCCESS: Ingested 2 qualified US buyer leads into database.`,
+        `[00:09] 1. "${selectedCity} Tibetan Sound Temple" (${selectedCity}) - Valid Email & Phone`,
+        `[00:09] 2. "${selectedState} Artisan Living & Imports" (${selectedCity}) - ImportYeti Verified`
       ]);
       setIsScanning(false);
       setScanCompleted(true);
@@ -118,7 +103,7 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
           id: `lead-new-${Date.now()}-1`,
           companyName: `${selectedCity} Tibetan Sound Temple`,
           contactName: 'Amanda Vance',
-          title: 'Managing Curator & Acoustic Buyer',
+          title: 'Managing Curator',
           source: activeSource as LeadSource,
           category: category,
           persona: 'Showrooms',
@@ -131,20 +116,20 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
           emailStatus: 'Valid',
           aiClassification: 'B2B Business Buyer',
           b2bConfidence: 96,
-          aiReasoning: `High-intent sound sanctuary and showroom located in ${selectedCity}, ${selectedState}. Actively hosts singing bowl sound bath certifications with retail inventory shelves.`,
+          aiReasoning: `Showroom located in ${selectedCity}, ${selectedState}. Hosts sound bath certifications with retail inventory display.`,
           outreachStatus: 'Not Contacted',
           callStatus: 'Pending',
           isDuplicate: false,
           shipmentsCount: 5,
           estimatedAnnualVolume: '$48,000 / yr',
-          notes: 'Discovered via live TradePulse scan. Ideal target for 432Hz 7-metal singing bowl sets.',
+          notes: 'Discovered via live TradePulse scan.',
           dateAdded: '2026-11-18'
         },
         {
           id: `lead-new-${Date.now()}-2`,
           companyName: `${selectedState} Artisan Living & Imports`,
           contactName: 'Gregory Scott',
-          title: 'Director of Global Merchandising',
+          title: 'Director of Sourcing',
           source: 'ImportYeti Trade',
           category: category,
           persona: 'Importers',
@@ -157,7 +142,7 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
           emailStatus: 'Valid',
           aiClassification: 'B2B Business Buyer',
           b2bConfidence: 94,
-          aiReasoning: `US Customs Bill of Lading shows 14 container entries from India (Nhava Sheva to Houston/LA) for handcrafted brassware and acoustic bowls.`,
+          aiReasoning: `US Customs Bill of Lading shows 14 container entries from India (Nhava Sheva to Houston/LA).`,
           outreachStatus: 'Not Contacted',
           callStatus: 'Pending',
           isDuplicate: false,
@@ -188,23 +173,23 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
   };
 
   const sourceTabs = [
-    { id: 'Google Maps Scraper', label: 'Google Maps Scraper', sub: 'Showrooms & Phone Numbers', icon: MapPin },
-    { id: 'LinkedIn Buyer Finder', label: 'LinkedIn Buyer Radar', sub: 'Apollo & Lusha Decision Makers', icon: Briefcase },
-    { id: 'ImportYeti Trade', label: 'ImportYeti Trade Intel', sub: 'CBP Sea Manifests (Nhava Sheva)', icon: Ship },
-    { id: 'Faire / Thomasnet', label: 'B2B Expos & Directories', sub: 'Faire, Thomasnet, NY NOW', icon: Store },
-    { id: 'CSV Upload', label: 'Raw Lead CSV Uploader', sub: 'Drag & Drop Prospect Rosters', icon: UploadCloud },
+    { id: 'Google Maps Scraper', label: 'Google Maps Scraper', sub: 'Places & Direct Phones', icon: MapPin },
+    { id: 'LinkedIn Buyer Finder', label: 'LinkedIn Buyer Radar', sub: 'Apollo Verified Buyers', icon: Briefcase },
+    { id: 'ImportYeti Trade', label: 'ImportYeti Intelligence', sub: 'US CBP Sea Manifests', icon: Ship },
+    { id: 'Faire / Thomasnet', label: 'B2B Directories & Expos', sub: 'Wholesale Catalogues', icon: Store },
+    { id: 'CSV Upload', label: 'CSV Lead Uploader', sub: 'Spreadsheet Ingest', icon: UploadCloud },
   ];
 
   return (
-    <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-300">
+    <div className="space-y-10 animate-in fade-in duration-200">
       
-      {/* 1. PAGE HERO */}
+      {/* 1. PAGE HERO (text-4xl, 1 sentence) */}
       <PageHero
-        eyebrow="Targeted Lead Generation // 5 Live Channels"
-        eyebrowIcon={<Radar className="h-4 w-4 text-[#F59E0B]" />}
+        eyebrow="Targeted Lead Scraper"
+        eyebrowIcon={<Radar className="h-3.5 w-3.5 text-[#2FBF8F]" />}
         title="Multi-Source US Buyer Discovery"
         gradientWord="Discovery"
-        description="Drill down into specific US state and city corridors to discover high-value acoustic showrooms, holistic studios, and container-scale wholesale importers."
+        description="Filter by US state and city to extract verified showroom buyers and container-scale importers."
         actions={
           <>
             <Button
@@ -213,7 +198,7 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
               onClick={handleDownloadSampleCsv}
               icon={<Download className="h-4 w-4" />}
             >
-              Sample Leads CSV
+              Sample CSV
             </Button>
             <Button
               variant="primary"
@@ -228,21 +213,17 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
         }
       />
 
-      {/* 2. GEOGRAPHIC DRILL-DOWN (2x2 GRID ON LAPTOP, 4 COLS ON LARGE) */}
-      <Card padding="lg" className="space-y-8">
+      {/* 2. FILTERS (2-COLUMN GRID, 4 AT >=1600PX, SELECTS 52PX TALL, PX-4, GAP-6) */}
+      <Card padding="md" className="space-y-6">
         <div>
-          <h3 className="text-[20px] font-bold text-[#F5F5F7] tracking-tight">
-            Target Corridor & Category Specification
+          <h3 className="text-[17px] font-bold text-[#E5E9F0]">
+            Target Geographic & Product Parameters
           </h3>
-          <p className="text-[15px] text-[#A1A1AA] mt-1">
-            Narrow down your search parameters to isolate targeted wholesale buyers.
-          </p>
         </div>
 
-        {/* 2x2 Grid with 24px Gaps */}
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6">
           
-          {/* Field 1: Category */}
+          {/* Category */}
           <Select
             label="Product Export Category"
             value={category}
@@ -254,23 +235,21 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
             <option value="Handcrafted Accents">Handcrafted Accents (Jaipur Craft)</option>
           </Select>
 
-          {/* Field 2: Target Country */}
-          <div className="space-y-2">
-            <label className="block text-[13px] font-mono uppercase tracking-eyebrow text-[#A1A1AA] font-semibold">
+          {/* Target Country: Bug fix applied (8px green dot, whitespace-nowrap, min-w-0, truncate only long values) */}
+          <div className="space-y-2 min-w-0">
+            <label className="block text-[12px] font-mono uppercase tracking-eyebrow text-[#9AA4B2] font-semibold whitespace-nowrap">
               Target Country
             </label>
-            <div className="h-[54px] rounded-control bg-[#0E0E12] border border-white/10 px-5 flex items-center justify-between text-[16px] text-[#F5F5F7]">
-              <div className="flex items-center gap-3">
-                <Globe2 className="h-5 w-5 text-[#6366F1]" />
-                <span className="font-semibold">United States (USA)</span>
+            <div className="h-[52px] rounded-control bg-[#10151C] border border-[rgba(148,163,184,0.12)] px-4 flex items-center justify-between text-[15px] text-[#E5E9F0] min-w-0">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Globe2 className="h-4 w-4 text-[#7C8DB5] shrink-0" />
+                <span className="font-medium whitespace-nowrap truncate">United States (USA)</span>
               </div>
-              <span className="rounded-full bg-[#34D399]/15 px-3 py-0.5 text-[12px] font-mono font-bold text-[#34D399]">
-                Primary Corridor
-              </span>
+              <span className="h-2 w-2 rounded-full bg-[#2FBF8F] shrink-0 ml-2" title="Primary Corridor" />
             </div>
           </div>
 
-          {/* Field 3: State Selector */}
+          {/* State Selector */}
           <Select
             label="US Target State"
             value={selectedState}
@@ -282,14 +261,14 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
           >
             {Object.keys(US_GEO_DATA).map((state) => (
               <option key={state} value={state}>
-                {state} ({state === 'Texas' ? 'Houston / Austin Corridor' : state === 'California' ? 'Long Beach / LA Port' : 'Major Hub'})
+                {state}
               </option>
             ))}
           </Select>
 
-          {/* Field 4: City Metro Selector */}
+          {/* City Selector */}
           <Select
-            label="City Metro Drill-Down"
+            label="City Metro Hub"
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
           >
@@ -302,12 +281,12 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
 
         </div>
 
-        {/* Target Buyer Personas (44px tall, 16px text, 20px padding) */}
-        <div className="pt-6 border-t border-white/[0.08] space-y-4">
-          <label className="block text-[13px] font-mono uppercase tracking-eyebrow text-[#A1A1AA] font-semibold">
-            Target Buyer Personas (Select All That Apply)
+        {/* Persona Chips (44px tall, 15px text, whitespace-nowrap shrink-0) */}
+        <div className="pt-4 border-t border-[rgba(148,163,184,0.08)] space-y-3">
+          <label className="block text-[12px] font-mono uppercase tracking-eyebrow text-[#9AA4B2] font-semibold">
+            Target Buyer Personas
           </label>
-          <div className="flex flex-wrap gap-3.5">
+          <div className="flex flex-wrap gap-2.5">
             {(['Showrooms', 'Wellness Stores', 'Wholesalers', 'Importers', 'Distributors', 'Retailers'] as BuyerPersona[]).map((p) => {
               const isSelected = selectedPersonas.includes(p);
               return (
@@ -315,16 +294,16 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
                   key={p}
                   type="button"
                   onClick={() => togglePersona(p)}
-                  className={`h-11 px-5 rounded-full text-[15px] font-medium transition-all flex items-center gap-2.5 ${
+                  className={`h-10 px-4 rounded-full text-[14px] font-medium transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
                     isSelected
-                      ? 'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/35 shadow-sm'
-                      : 'bg-[#0E0E12] text-[#A1A1AA] border border-white/10 hover:bg-[#15151A] hover:text-[#F5F5F7]'
+                      ? 'bg-[rgba(47,191,143,0.12)] text-[#2FBF8F] border border-[rgba(47,191,143,0.3)]'
+                      : 'bg-[#161C25] text-[#9AA4B2] border border-[rgba(148,163,184,0.1)] hover:bg-[#1B222D] hover:text-[#E5E9F0]'
                   }`}
                 >
                   {isSelected ? (
-                    <Check className="h-4 w-4 text-[#F59E0B]" />
+                    <Check className="h-3.5 w-3.5 text-[#2FBF8F]" />
                   ) : (
-                    <span className="h-2 w-2 rounded-full bg-[#6B6B75]" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#667085]" />
                   )}
                   <span>{p}</span>
                 </button>
@@ -334,18 +313,13 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
         </div>
       </Card>
 
-      {/* 3. RESPONSIVE GRID OF SELECTABLE SOURCE CONNECTOR CARDS */}
-      <div className="space-y-6">
-        <div>
-          <h3 className="text-[20px] font-bold text-[#F5F5F7] tracking-tight">
-            Multi-Platform Sourcing Connectors
-          </h3>
-          <p className="text-[15px] text-[#A1A1AA] mt-1">
-            Toggle between live intelligence sources to configure scan parameters.
-          </p>
-        </div>
+      {/* 3. SOURCE TABS: WRAP INTO A 2-ROW GRID, NO CUT-OFF TEXT */}
+      <div className="space-y-4">
+        <h3 className="text-[17px] font-bold text-[#E5E9F0]">
+          Active Sourcing Connectors
+        </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
           {sourceTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeSource === tab.id;
@@ -354,30 +328,28 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
               <div
                 key={tab.id}
                 onClick={() => setActiveSource(tab.id as any)}
-                className={`p-6 rounded-2xl border cursor-pointer transition-all duration-200 flex flex-col justify-between h-40 ${
+                className={`p-4 rounded-panel border cursor-pointer transition-all duration-200 flex flex-col justify-between ${
                   isActive
-                    ? 'bg-[#0E0E12] border-[#F59E0B] shadow-[0_0_30px_-8px_rgba(245,158,11,0.3)] -translate-y-1'
-                    : 'bg-[#0E0E12]/70 border-white/10 hover:border-white/20 hover:bg-[#15151A]'
+                    ? 'bg-[#161C25] border-[#2FBF8F] text-[#E5E9F0]'
+                    : 'bg-[#10151C] border-[rgba(148,163,184,0.12)] hover:border-[rgba(148,163,184,0.22)] text-[#9AA4B2]'
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className={`p-3 rounded-xl ${
-                    isActive ? 'bg-[#F59E0B]/15 text-[#F59E0B]' : 'bg-white/[0.04] text-[#A1A1AA]'
+                <div className="flex items-center justify-between mb-3">
+                  <div className={`p-2 rounded-lg ${
+                    isActive ? 'bg-[rgba(47,191,143,0.15)] text-[#2FBF8F]' : 'bg-[#161C25] text-[#667085]'
                   }`}>
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-4 w-4" />
                   </div>
                   {isActive && (
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B] shadow-[0_0_8px_#F59E0B]" />
+                    <span className="h-2 w-2 rounded-full bg-[#2FBF8F]" />
                   )}
                 </div>
 
                 <div>
-                  <h4 className={`text-[16px] font-bold ${
-                    isActive ? 'text-[#F5F5F7]' : 'text-[#A1A1AA]'
-                  }`}>
+                  <h4 className="text-[14px] font-semibold text-[#E5E9F0] truncate">
                     {tab.label}
                   </h4>
-                  <p className="text-[13px] font-mono text-[#6B6B75] mt-1 truncate">
+                  <p className="text-[12px] font-mono text-[#667085] mt-0.5 truncate">
                     {tab.sub}
                   </p>
                 </div>
@@ -387,36 +359,36 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
         </div>
       </div>
 
-      {/* 4. ACTIVE SOURCE CONFIGURATION PANEL */}
-      <Card padding="lg" className="space-y-6">
+      {/* 4. ACTIVE SOURCE PANEL */}
+      <Card padding="md">
         {activeSource === 'Google Maps Scraper' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
-              <h3 className="text-[19px] font-bold text-[#F5F5F7]">Google Places & Maps Scraping Agent</h3>
-              <p className="text-[15px] text-[#A1A1AA] mt-1">
-                Extracts physical showroom names, addresses, direct telephone lines for cold calling, and contact emails.
+              <h4 className="text-[16px] font-bold text-[#E5E9F0]">Google Places Scraper</h4>
+              <p className="text-[14px] text-[#9AA4B2] mt-0.5">
+                Extracts showroom names, addresses, direct telephone lines, and contact emails.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 space-y-2">
-                <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">Primary Query</span>
-                <p className="text-[16px] font-mono font-semibold text-[#F59E0B]">
-                  "sound healing showroom {selectedCity} {selectedState}"
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 rounded-panel bg-[#161C25] space-y-1">
+                <span className="text-[11px] font-mono uppercase tracking-eyebrow text-[#667085]">Query</span>
+                <p className="text-[14px] font-mono text-[#2FBF8F] truncate">
+                  "sound healing showroom {selectedCity}"
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 space-y-2">
-                <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">Secondary Scrape</span>
-                <p className="text-[16px] font-mono font-semibold text-[#F5F5F7]">
-                  "tibetan singing bowl wholesale {selectedCity}"
+              <div className="p-4 rounded-panel bg-[#161C25] space-y-1">
+                <span className="text-[11px] font-mono uppercase tracking-eyebrow text-[#667085]">Secondary</span>
+                <p className="text-[14px] font-mono text-[#E5E9F0] truncate">
+                  "singing bowls wholesale {selectedCity}"
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 space-y-2">
-                <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">Extraction Scope</span>
-                <p className="text-[16px] font-mono font-semibold text-[#34D399]">
-                  Website DOM + Phone + Decision Maker
+              <div className="p-4 rounded-panel bg-[#161C25] space-y-1">
+                <span className="text-[11px] font-mono uppercase tracking-eyebrow text-[#667085]">Scope</span>
+                <p className="text-[14px] font-mono text-[#7C8DB5]">
+                  DOM + Phone + Decision Maker
                 </p>
               </div>
             </div>
@@ -424,135 +396,88 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
         )}
 
         {activeSource === 'LinkedIn Buyer Finder' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
-              <h3 className="text-[19px] font-bold text-[#F5F5F7]">LinkedIn Decision-Maker & Buyer Radar</h3>
-              <p className="text-[15px] text-[#A1A1AA] mt-1">
-                Enriched with Apollo/Lusha direct work emails and direct dials for procurement directors.
+              <h4 className="text-[16px] font-bold text-[#E5E9F0]">LinkedIn Buyer Radar</h4>
+              <p className="text-[14px] text-[#9AA4B2] mt-0.5">
+                Enriched decision maker titles with verified direct business emails.
               </p>
             </div>
-
-            <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 space-y-3">
-              <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">
-                Target Decision-Maker Titles in {selectedState}:
-              </span>
-              <div className="flex flex-wrap gap-2.5">
-                {['Senior Buyer', 'Purchasing Director', 'Head of Imports', 'Sound Healing Studio Owner', 'Curator & Merchandiser'].map((title, i) => (
-                  <span key={i} className="px-3.5 py-1.5 rounded-full bg-[#6366F1]/12 border border-[#6366F1]/25 text-[#A5B4FC] font-mono text-[14px]">
-                    {title}
-                  </span>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2">
+              {['Senior Buyer', 'Purchasing Director', 'Head of Imports', 'Sound Healing Studio Owner', 'Curator'].map((title, i) => (
+                <span key={i} className="px-3 py-1 rounded-full bg-[#161C25] text-[#7C8DB5] font-mono text-[13px]">
+                  {title}
+                </span>
+              ))}
             </div>
           </div>
         )}
 
         {activeSource === 'ImportYeti Trade' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
-              <h3 className="text-[19px] font-bold text-[#F5F5F7]">ImportYeti Customs & Bill of Lading Manifests</h3>
-              <p className="text-[15px] text-[#A1A1AA] mt-1">
-                Tracks ocean shipments from Port of Nhava Sheva (Mumbai) to Houston and Long Beach.
+              <h4 className="text-[16px] font-bold text-[#E5E9F0]">ImportYeti Customs Manifests</h4>
+              <p className="text-[14px] text-[#9AA4B2] mt-0.5">
+                Tracks ocean container bills of lading from Nhava Sheva to US destination ports.
               </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 space-y-2">
-                <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">Harmonized Tariff</span>
-                <p className="text-[16px] font-mono font-bold text-[#F59E0B]">HS 9206.00 (Percussion Bowls)</p>
-              </div>
-              <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 space-y-2">
-                <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">Indian Sea Ports</span>
-                <p className="text-[16px] font-mono font-semibold text-[#F5F5F7]">Nhava Sheva & Mundra</p>
-              </div>
-              <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 space-y-2">
-                <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">US Port of Unlading</span>
-                <p className="text-[16px] font-mono font-bold text-[#34D399]">Port of Houston, TX</p>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-[13px]">
+              <div className="p-3.5 rounded-panel bg-[#161C25]">HTS 9206.00 (Percussion Bowls)</div>
+              <div className="p-3.5 rounded-panel bg-[#161C25]">Origin: Nhava Sheva / Mundra</div>
+              <div className="p-3.5 rounded-panel bg-[#161C25]">Destination: Port of Houston, TX</div>
             </div>
           </div>
         )}
 
         {activeSource === 'Faire / Thomasnet' && (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-[19px] font-bold text-[#F5F5F7]">Wholesale Directories & Trade Show Expos</h3>
-              <p className="text-[15px] text-[#A1A1AA] mt-1">
-                Crawls wholesale registries, Faire boutique directories, Thomasnet, Yelp, and NY NOW / Las Vegas Market catalogs.
-              </p>
-            </div>
-            <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 text-[15px] text-[#A1A1AA] leading-relaxed">
-              Targeting wholesale buyers with verified retail reseller permits (sales tax exemptions) actively stocking handcrafted sacred brass, meditation bells, and Indian artisanal gifts.
-            </div>
+          <div className="space-y-3">
+            <h4 className="text-[16px] font-bold text-[#E5E9F0]">B2B Expos & Catalogues</h4>
+            <p className="text-[14px] text-[#9AA4B2]">
+              Scrapes registered boutique retailers and wholesale buyers with active resale sales tax permits.
+            </p>
           </div>
         )}
 
         {activeSource === 'CSV Upload' && (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-[19px] font-bold text-[#F5F5F7]">Bulk Prospect CSV Spreadsheet Uploader</h3>
-              <p className="text-[15px] text-[#A1A1AA] mt-1">
-                Drag and drop raw prospect rosters exported from Apollo, Google Maps, or trade shows.
-              </p>
-            </div>
-
-            <div
-              onClick={() => {
-                alert('Opening file selector for US buyer CSV import.');
-                handleRunScan();
-              }}
-              className="rounded-2xl border-2 border-dashed border-white/15 hover:border-[#F59E0B]/50 p-12 text-center bg-[#0E0E12]/50 hover:bg-[#0E0E12] cursor-pointer transition-all space-y-3"
-            >
-              <UploadCloud className="h-12 w-12 text-[#F59E0B] mx-auto" />
-              <p className="text-[17px] font-bold text-[#F5F5F7]">Click or drag & drop US buyer CSV list here</p>
-              <p className="text-[14px] text-[#A1A1AA]">Supports UTF-8 CSV, XLSX with auto-column mapping</p>
-            </div>
+          <div
+            onClick={() => {
+              alert('Opening file selector for buyer CSV import.');
+              handleRunScan();
+            }}
+            className="rounded-panel border border-dashed border-[rgba(148,163,184,0.2)] hover:border-[#2FBF8F] p-8 text-center cursor-pointer transition-all"
+          >
+            <UploadCloud className="h-8 w-8 text-[#2FBF8F] mx-auto mb-2" />
+            <p className="text-[15px] font-semibold text-[#E5E9F0]">Click to upload raw buyer CSV</p>
+            <p className="text-[13px] text-[#667085] mt-0.5">UTF-8 CSV format with column header mapping</p>
           </div>
         )}
       </Card>
 
-      {/* 5. LIVE TERMINAL SCAN STREAM (MIN-HEIGHT 360PX, 64PX GAP BELOW) */}
+      {/* 5. LIVE TERMINAL CONSOLE */}
       {(isScanning || scanCompleted) && (
-        <div className="rounded-2xl bg-[#07070A] border border-white/15 p-8 font-mono shadow-2xl min-h-[360px] space-y-5">
-          {/* Window Chrome Header with 3 Dots */}
-          <div className="flex items-center justify-between pb-4 border-b border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <span className="h-3.5 w-3.5 rounded-full bg-[#F87171]" />
-                <span className="h-3.5 w-3.5 rounded-full bg-[#FBBF24]" />
-                <span className="h-3.5 w-3.5 rounded-full bg-[#34D399]" />
-              </div>
-              <span className="text-[14px] font-bold text-[#F5F5F7] ml-2">
-                TradePulse Live Extraction Console // v2.8
-              </span>
+        <div className="rounded-panel bg-[#07090C] border border-[rgba(148,163,184,0.15)] p-6 font-mono space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[rgba(148,163,184,0.1)] text-[13px]">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#E07A7A]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#C9A66B]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#2FBF8F]" />
+              <span className="text-[#9AA4B2] ml-2">Extraction Stream</span>
             </div>
-
-            <div className="flex items-center gap-4 text-[14px]">
-              <span className="text-[#A1A1AA]">{scanProgress}% Processed</span>
-              <span className={`h-3 w-3 rounded-full ${isScanning ? 'bg-[#F59E0B] animate-ping' : 'bg-[#34D399]'}`} />
-            </div>
+            <span className="text-[#2FBF8F]">{scanProgress}%</span>
           </div>
 
-          {/* Thick Animated Progress Bar */}
-          <div className="w-full bg-[#15151A] rounded-full h-2.5 overflow-hidden">
+          <div className="w-full bg-[#161C25] rounded-full h-1.5 overflow-hidden">
             <div
-              className="bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#34D399] h-full transition-all duration-300 rounded-full"
+              className="bg-[#2FBF8F] h-full transition-all duration-300 rounded-full"
               style={{ width: `${scanProgress}%` }}
             />
           </div>
 
-          {/* Terminal Logs: 15px mono, line-height 1.9 */}
-          <div className="space-y-2 text-[15px] leading-[1.9] text-[#A1A1AA] max-h-64 overflow-y-auto pt-2">
+          <div className="space-y-1 text-[13px] leading-relaxed text-[#9AA4B2] max-h-48 overflow-y-auto">
             {scanLogs.map((log, idx) => (
               <div
                 key={idx}
-                className={
-                  log.includes('SUCCESS')
-                    ? 'text-[#34D399] font-bold'
-                    : log.includes('Targeted')
-                    ? 'text-[#F59E0B] font-semibold'
-                    : 'text-[#A1A1AA]'
-                }
+                className={log.includes('SUCCESS') ? 'text-[#2FBF8F] font-semibold' : 'text-[#9AA4B2]'}
               >
                 {log}
               </div>
@@ -561,7 +486,7 @@ export const DiscoveryView: React.FC<DiscoveryViewProps> = ({ onAddLeads, totalL
         </div>
       )}
 
-      {/* Visible Bottom Breathing Room (64px) */}
+      {/* 64px Bottom Clearance */}
       <div className="h-16" />
 
     </div>

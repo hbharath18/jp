@@ -14,22 +14,18 @@ import { INITIAL_LEADS, INITIAL_EMAIL_LOGS, INITIAL_CALL_LOGS } from './data/moc
 import { Lead, SentEmailLog, ColdCallLog } from './types';
 
 export const App: React.FC = () => {
-  // Global State
   const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
   const [emailLogs, setEmailLogs] = useState<SentEmailLog[]>(INITIAL_EMAIL_LOGS);
   const [callLogs, setCallLogs] = useState<ColdCallLog[]>(INITIAL_CALL_LOGS);
   
-  // Navigation State
   const [activeTab, setActiveTab] = useState<NavTab>('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  // Modals
   const [catalogModalOpen, setCatalogModalOpen] = useState<boolean>(false);
   const [selectedLeadForModal, setSelectedLeadForModal] = useState<Lead | null>(null);
   const [leadForEmailCompose, setLeadForEmailCompose] = useState<Lead | null>(null);
 
-  // Handlers
   const handleAddLeads = (newLeads: Lead[]) => {
     setLeads(prev => [...newLeads, ...prev]);
   };
@@ -55,7 +51,6 @@ export const App: React.FC = () => {
     setActiveTab('dialer');
   };
 
-  // Badge Counts
   const counts = {
     total: leads.length,
     validated: leads.filter(l => l.emailStatus === 'Valid').length,
@@ -66,19 +61,19 @@ export const App: React.FC = () => {
   };
 
   const tabTitles: Record<NavTab, string> = {
-    overview: 'Pipeline Overview',
-    discovery: 'Multi-Source Discovery Engine',
-    datamaster: 'Master Buyer Database & QC',
-    gemini: 'Gemini 3.8 AI Classifier',
-    outreach: 'Gmail Outreach & Catalog Dispatch',
-    dialer: 'Cold Calling Queue',
-    audit: 'Audit & Sent Ledger'
+    overview: 'Overview',
+    discovery: 'Discovery',
+    datamaster: 'Buyers',
+    gemini: 'AI Classifier',
+    outreach: 'Outreach',
+    dialer: 'Cold Calls',
+    audit: 'Logs'
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-ambient-canvas bg-[#07070A] text-[#F5F5F7]">
+    <div className="flex h-screen w-screen overflow-hidden bg-ambient-canvas bg-[#0A0D12] text-[#E5E9F0]">
       
-      {/* Left Sidebar */}
+      {/* Left Sidebar (280px) */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -90,7 +85,7 @@ export const App: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col min-w-0 overflow-hidden relative z-10">
         
-        {/* Top Header */}
+        {/* Top Header (80px, one line) */}
         <Navbar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -99,9 +94,9 @@ export const App: React.FC = () => {
           activeTabTitle={tabTitles[activeTab]}
         />
 
-        {/* Scrollable Viewport with Centered Container (Max 1440px) */}
-        <main className="flex-1 overflow-y-auto px-6 sm:px-12 lg:px-16 pt-8 sm:pt-12 pb-20">
-          <div className="max-w-[1440px] mx-auto space-y-12 sm:space-y-16">
+        {/* Scrollable Viewport: max-w-[1360px] mx-auto px-10 py-10 */}
+        <main className="flex-1 overflow-y-auto px-6 sm:px-10 py-10">
+          <div className="max-w-[1360px] mx-auto space-y-10">
             
             {activeTab === 'overview' && (
               <OverviewView
@@ -168,8 +163,8 @@ export const App: React.FC = () => {
               />
             )}
 
-            {/* Bottom 48px padding spacer */}
-            <div className="h-12" />
+            {/* Bottom 64px clearance */}
+            <div className="h-16" />
 
           </div>
         </main>

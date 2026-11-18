@@ -20,30 +20,30 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const sizeClasses = {
-    sm: 'h-11 px-5 text-[14px]',
-    md: 'h-[52px] px-7 text-[15px]',
-    lg: 'h-[56px] px-8 text-[16px]'
+    sm: 'h-10 px-4 text-[14px]',
+    md: 'h-11 px-5 text-[14px]',
+    lg: 'h-[48px] px-6 text-[15px]'
   }[size];
 
   const variantClasses = {
     primary:
-      'bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#07070A] font-bold shadow-glow-amber hover:shadow-glow-amber-lg hover:from-[#FBBF24] hover:to-[#F59E0B] hover:-translate-y-0.5 active:scale-[0.98]',
+      'bg-[#2FBF8F] hover:bg-[#249E76] text-[#07130F] font-semibold shadow-subtle active:scale-[0.98]',
     secondary:
-      'bg-[#0E0E12]/80 hover:bg-[#1B1B22] text-[#F5F5F7] border border-white/10 hover:border-white/20 active:scale-[0.98]',
+      'bg-transparent hover:bg-[#1B222D] text-[#E5E9F0] border border-[rgba(148,163,184,0.12)] hover:border-[rgba(148,163,184,0.22)] active:scale-[0.98]',
     danger:
-      'bg-[#F87171]/15 hover:bg-[#F87171]/25 text-[#F87171] border border-[#F87171]/30 active:scale-[0.98]',
+      'bg-[rgba(224,122,122,0.12)] hover:bg-[rgba(224,122,122,0.18)] text-[#E07A7A] border border-[rgba(224,122,122,0.25)] active:scale-[0.98]',
     ghost:
-      'bg-transparent hover:bg-white/[0.06] text-[#A1A1AA] hover:text-[#F5F5F7]'
+      'bg-transparent hover:bg-[#1B222D] text-[#9AA4B2] hover:text-[#E5E9F0]'
   }[variant];
 
   return (
     <button
       disabled={disabled}
-      className={`inline-flex items-center justify-center gap-2.5 rounded-control font-sans font-medium transition-all duration-200 select-none disabled:opacity-40 disabled:pointer-events-none ${sizeClasses} ${variantClasses} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-control font-sans transition-all duration-200 select-none whitespace-nowrap shrink-0 disabled:opacity-40 disabled:pointer-events-none ${sizeClasses} ${variantClasses} ${className}`}
       {...props}
     >
       {icon && iconPosition === 'left' && <span className="shrink-0">{icon}</span>}
-      <span>{children}</span>
+      <span className="whitespace-nowrap">{children}</span>
       {icon && iconPosition === 'right' && <span className="shrink-0">{icon}</span>}
     </button>
   );

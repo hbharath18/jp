@@ -7,10 +7,10 @@ interface StatCardProps {
   subValue?: string;
   badge?: {
     text: string;
-    variant?: 'amber' | 'indigo' | 'success' | 'warning' | 'danger' | 'neutral';
+    variant?: 'emerald' | 'slate' | 'success' | 'warning' | 'danger' | 'neutral';
   };
   icon: React.ReactNode;
-  iconVariant?: 'amber' | 'indigo' | 'emerald' | 'cyan' | 'rose';
+  iconVariant?: 'emerald' | 'slate' | 'warning' | 'danger' | 'neutral';
   description?: string;
   onClick?: () => void;
   className?: string;
@@ -23,66 +23,61 @@ export const StatCard: React.FC<StatCardProps> = ({
   subValue,
   badge,
   icon,
-  iconVariant = 'amber',
+  iconVariant = 'emerald',
   description,
   onClick,
   className = '',
   isHero = false
 }) => {
   const iconVariantStyles = {
-    amber: 'bg-[#F59E0B]/12 text-[#F59E0B] border-[#F59E0B]/25',
-    indigo: 'bg-[#6366F1]/12 text-[#A5B4FC] border-[#6366F1]/25',
-    emerald: 'bg-[#34D399]/12 text-[#34D399] border-[#34D399]/25',
-    cyan: 'bg-cyan-500/12 text-cyan-300 border-cyan-500/25',
-    rose: 'bg-[#F87171]/12 text-[#F87171] border-[#F87171]/25'
+    emerald: 'bg-[rgba(47,191,143,0.12)] text-[#2FBF8F] border-[rgba(47,191,143,0.25)]',
+    slate: 'bg-[rgba(124,141,181,0.12)] text-[#7C8DB5] border-[rgba(124,141,181,0.25)]',
+    warning: 'bg-[rgba(201,166,107,0.12)] text-[#C9A66B] border-[rgba(201,166,107,0.25)]',
+    danger: 'bg-[rgba(224,122,122,0.12)] text-[#E07A7A] border-[rgba(224,122,122,0.25)]',
+    neutral: 'bg-[rgba(148,163,184,0.08)] text-[#9AA4B2] border-[rgba(148,163,184,0.18)]'
   }[iconVariant];
 
   return (
     <Card
       interactive={!!onClick}
       onClick={onClick}
-      padding="lg"
-      className={`relative flex flex-col justify-between overflow-hidden transition-all group ${
-        isHero ? 'lg:col-span-2' : ''
-      } ${className}`}
+      padding="md"
+      className={`relative flex flex-col justify-between overflow-hidden transition-all group ${isHero ? 'lg:col-span-2' : ''
+        } ${className}`}
     >
       <div>
-        {/* Top bar: 48px rounded square icon + badge */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-5">
           <div
-            className={`flex h-12 w-12 items-center justify-center rounded-2xl border ${iconVariantStyles} transition-transform group-hover:scale-105`}
+            className={`flex h-11 w-11 items-center justify-center rounded-panel border ${iconVariantStyles}`}
           >
             {icon}
           </div>
 
           {badge && (
-            <span className="rounded-full bg-white/[0.06] border border-white/10 px-3 py-1 text-[13px] font-mono font-medium text-[#A1A1AA]">
+            <span className="rounded-full bg-[rgba(148,163,184,0.08)] border border-[rgba(148,163,184,0.18)] px-2.5 py-0.5 text-[12px] font-mono font-medium text-[#9AA4B2] whitespace-nowrap shrink-0">
               {badge.text}
             </span>
           )}
         </div>
 
-        {/* Title */}
-        <p className="text-[14px] uppercase tracking-eyebrow font-mono font-semibold text-[#A1A1AA]">
+        <p className="text-[12px] uppercase tracking-eyebrow font-mono font-semibold text-[#9AA4B2]">
           {title}
         </p>
 
-        {/* Metric Value: 40-48px mono */}
-        <div className="flex items-baseline gap-3 mt-3">
-          <span className="text-4xl sm:text-[44px] font-extrabold font-mono text-[#F5F5F7] tracking-tight">
+        <div className="flex items-baseline gap-2.5 mt-2">
+          <span className="text-3xl sm:text-[38px] font-bold font-mono text-[#E5E9F0] tracking-tight">
             {value}
           </span>
           {subValue && (
-            <span className="text-[15px] font-mono text-[#A1A1AA] font-normal">
+            <span className="text-[14px] font-mono text-[#9AA4B2] font-normal whitespace-nowrap">
               {subValue}
             </span>
           )}
         </div>
       </div>
 
-      {/* Description */}
       {description && (
-        <p className="text-[14px] text-[#6B6B75] mt-5 pt-4 border-t border-white/[0.06] leading-relaxed">
+        <p className="text-[13px] text-[#667085] mt-4 pt-3 border-t border-[rgba(148,163,184,0.1)] leading-normal">
           {description}
         </p>
       )}

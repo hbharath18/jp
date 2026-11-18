@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import {
   PhoneCall,
-  PhoneForwarded,
   Clock,
-  Building2,
   CheckCircle2,
   Sparkles,
   Headphones,
-  Send,
-  Calendar,
-  MessageSquare,
-  ShieldCheck,
   Check
 } from 'lucide-react';
 import { Lead, ColdCallLog, CallOutcome } from '../types';
@@ -97,7 +91,7 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
 
     setNotification(
       capturedEmail
-        ? `Lead successfully upgraded with email ${capturedEmail} & added to Gmail Outreach!`
+        ? `Upgraded with email ${capturedEmail} & added to Outreach!`
         : `Call logged: ${outcome}`
     );
 
@@ -105,57 +99,54 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
     setCallNotes('');
     setDialDuration(0);
 
-    setTimeout(() => setNotification(null), 4000);
+    setTimeout(() => setNotification(null), 3000);
   };
 
   const getTimezoneInfo = (state: string) => {
-    if (state === 'Texas') return { zone: 'CST (UTC-6)', city: 'Houston / Austin', current: '10:42 AM' };
-    if (state === 'California') return { zone: 'PST (UTC-8)', city: 'Los Angeles / SF', current: '08:42 AM' };
-    if (state === 'New York') return { zone: 'EST (UTC-5)', city: 'New York City', current: '11:42 AM' };
-    if (state === 'Arizona') return { zone: 'MST (UTC-7)', city: 'Sedona (No DST)', current: '09:42 AM' };
-    return { zone: 'EST (UTC-5)', city: 'US Metro', current: '11:42 AM' };
+    if (state === 'Texas') return { zone: 'CST', current: '10:42 AM' };
+    if (state === 'California') return { zone: 'PST', current: '08:42 AM' };
+    if (state === 'New York') return { zone: 'EST', current: '11:42 AM' };
+    if (state === 'Arizona') return { zone: 'MST', current: '09:42 AM' };
+    return { zone: 'EST', current: '11:42 AM' };
   };
 
   const tz = activeLead ? getTimezoneInfo(activeLead.state) : getTimezoneInfo('Texas');
 
   return (
-    <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-300">
+    <div className="space-y-10 animate-in fade-in duration-200">
 
-      {/* Toast Alert */}
       {notification && (
-        <div className="fixed bottom-8 right-8 z-50 rounded-2xl bg-[#0E0E12] border border-[#34D399]/40 p-5 text-[15px] text-[#F5F5F7] shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-3">
-          <Check className="h-5 w-5 text-[#34D399] shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 rounded-panel bg-[#161C25] border border-[rgba(47,191,143,0.3)] p-4 text-[14px] text-[#E5E9F0] shadow-lg flex items-center gap-2.5 animate-in slide-in-from-bottom-2">
+          <Check className="h-4 w-4 text-[#2FBF8F] shrink-0" />
           <span>{notification}</span>
         </div>
       )}
 
-      {/* 1. PAGE HERO */}
+      {/* 1. PAGE HERO (text-4xl, 1 sentence) */}
       <PageHero
-        eyebrow="Voice Conversion // Cold Calling Queue"
-        eyebrowIcon={<PhoneCall className="h-4 w-4 text-[#34D399]" />}
-        title="Showroom Cold Calling & Email Capture Desk"
+        eyebrow="Voice Qualification"
+        eyebrowIcon={<PhoneCall className="h-3.5 w-3.5 text-[#2FBF8F]" />}
+        title="Showroom Cold Calling Queue"
         gradientWord="Calling"
-        description="Dedicated calling station for phone-only Google Maps showroom leads. Includes teleprompter scripts, local US timezone clocks, and 1-click email capture."
+        description="Dedicated calling desk for phone-first showroom leads with teleprompter script and instant email conversion."
         actions={
-          <div className="flex items-center gap-3">
-            <span className="rounded-full bg-[#34D399]/15 border border-[#34D399]/30 px-4 py-2 text-[14px] font-mono font-bold text-[#34D399]">
-              Queue: {phoneLeads.length} Phone Leads
-            </span>
+          <div className="flex items-center gap-2 h-10 px-3.5 rounded-full bg-[#10151C] border border-[rgba(148,163,184,0.12)] text-[13px] font-mono text-[#2FBF8F] whitespace-nowrap shrink-0">
+            <span>{phoneLeads.length} Phone Leads in Queue</span>
           </div>
         }
       />
 
-      {/* 2. SPLIT LAYOUT: QUEUE CARDS (5 COLS) + ACTIVE STATION (7 COLS) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* 2. SPLIT LAYOUT */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        {/* LEFT COLUMN: CARD-BASED QUEUE (NOT A DENSE TABLE) */}
-        <div className="lg:col-span-5 space-y-4">
-          <div className="flex items-center justify-between pb-2">
-            <h3 className="text-[17px] font-bold text-[#F5F5F7]">Prospect Call Cards</h3>
-            <span className="text-[13px] font-mono text-[#6B6B75]">Select card to dial</span>
+        {/* Cards Queue (5 COLS) */}
+        <div className="lg:col-span-5 space-y-3">
+          <div className="flex items-center justify-between pb-1">
+            <h3 className="text-[15px] font-bold text-[#E5E9F0]">Lead Cards</h3>
+            <span className="text-[12px] font-mono text-[#667085]">Click card to load</span>
           </div>
 
-          <div className="space-y-4 max-h-[720px] overflow-y-auto pr-1">
+          <div className="space-y-3 max-h-[640px] overflow-y-auto pr-1">
             {phoneLeads.map((lead) => {
               const isActive = lead.id === activeLeadId;
               const isPhoneOnly = !lead.email;
@@ -164,30 +155,30 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
                 <Card
                   key={lead.id}
                   interactive
-                  padding="md"
+                  padding="sm"
                   onClick={() => {
                     setActiveLeadId(lead.id);
                     setCapturedEmail('');
                     setCallNotes('');
                   }}
                   className={`border transition-all ${isActive
-                      ? 'border-[#34D399] bg-[#0E0E12] shadow-[0_0_30px_-8px_rgba(52,211,153,0.3)]'
-                      : 'border-white/10 hover:border-white/20'
+                      ? 'border-[#2FBF8F] bg-[#161C25]'
+                      : 'border-[rgba(148,163,184,0.12)] hover:border-[rgba(148,163,184,0.22)]'
                     }`}
                 >
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <div>
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <h4 className="text-[16px] font-bold text-[#F5F5F7]">
+                        <h4 className="text-[15px] font-semibold text-[#E5E9F0] truncate">
                           {lead.companyName}
                         </h4>
                         {isPhoneOnly && (
-                          <span className="rounded-full bg-[#F59E0B]/15 px-2.5 py-0.5 text-[11px] font-mono font-bold text-[#F59E0B]">
+                          <span className="rounded-full bg-[rgba(201,166,107,0.12)] px-2 py-0.2 text-[10px] font-mono font-bold text-[#C9A66B] whitespace-nowrap shrink-0">
                             Phone Only
                           </span>
                         )}
                       </div>
-                      <p className="text-[14px] text-[#A1A1AA] mt-0.5">
+                      <p className="text-[13px] text-[#9AA4B2] truncate">
                         {lead.contactName} ({lead.title})
                       </p>
                     </div>
@@ -195,7 +186,7 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
                     <Badge
                       variant={
                         lead.callStatus === 'Interested - Requested Email' ? 'success' :
-                          lead.callStatus === 'Follow-up Scheduled' ? 'indigo' :
+                          lead.callStatus === 'Follow-up Scheduled' ? 'slate' :
                             lead.callStatus === 'Voicemail Left' ? 'warning' : 'neutral'
                       }
                       size="sm"
@@ -204,9 +195,9 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
                     </Badge>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[14px] font-mono">
-                    <span className="text-[#34D399] font-bold">{lead.phone}</span>
-                    <span className="text-[#6B6B75]">{lead.city}, {lead.state}</span>
+                  <div className="mt-2.5 pt-2 border-t border-[rgba(148,163,184,0.08)] flex items-center justify-between text-[13px] font-mono">
+                    <span className="text-[#2FBF8F] font-semibold">{lead.phone}</span>
+                    <span className="text-[#667085]">{lead.city}, {lead.state}</span>
                   </div>
                 </Card>
               );
@@ -214,59 +205,51 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
           </div>
         </div>
 
-        {/* RIGHT COLUMN: ACTIVE DIALER & TELEPROMPTER STATION */}
+        {/* Active Dialer & Teleprompter (7 COLS) */}
         {activeLead && (
           <div className="lg:col-span-7">
-            <Card padding="lg" className="space-y-8">
+            <Card padding="md" className="space-y-6">
 
-              {/* Active Target Header & Timezone */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-white/[0.08] gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#34D399]/15 border border-[#34D399]/30 text-[#34D399]">
-                    <Headphones className="h-7 w-7" />
+              {/* Target & Timezone */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[rgba(148,163,184,0.1)] gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[rgba(47,191,143,0.12)] text-[#2FBF8F]">
+                    <Headphones className="h-5 w-5" />
                   </div>
-                  <div>
-                    <h3 className="text-[20px] font-bold text-[#F5F5F7]">{activeLead.companyName}</h3>
-                    <p className="text-[14px] text-[#A1A1AA] mt-0.5">
-                      Contact: <strong className="text-[#F5F5F7]">{activeLead.contactName}</strong> ({activeLead.title}) • {activeLead.city}, {activeLead.state}
+                  <div className="min-w-0">
+                    <h3 className="text-[17px] font-bold text-[#E5E9F0] truncate">{activeLead.companyName}</h3>
+                    <p className="text-[13px] text-[#9AA4B2] truncate">
+                      {activeLead.contactName} ({activeLead.title}) • {activeLead.city}, {activeLead.state}
                     </p>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-[#0E0E12] border border-white/10 flex items-center gap-3">
-                  <Clock className="h-5 w-5 text-[#F59E0B]" />
-                  <div>
-                    <p className="font-mono font-bold text-[#F5F5F7] text-[15px]">{tz.current} {tz.zone}</p>
-                    <p className="text-[12px] text-[#34D399] font-semibold">Calling Window Open</p>
-                  </div>
+                <div className="px-3.5 py-2 rounded-panel bg-[#161C25] flex items-center gap-2 text-[13px] shrink-0">
+                  <Clock className="h-4 w-4 text-[#2FBF8F]" />
+                  <span className="font-mono text-[#E5E9F0]">{tz.current} {tz.zone}</span>
                 </div>
               </div>
 
-              {/* Direct Dialing Box & Live Simulated Call Button */}
-              <div className="p-6 rounded-2xl bg-[#0E0E12] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              {/* Direct Phone & Dial Button */}
+              <div className="p-4 rounded-panel bg-[#161C25] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6B6B75]">
-                    US Telephone Direct Line
+                  <span className="text-[11px] font-mono uppercase tracking-eyebrow text-[#667085]">
+                    Direct Telephone
                   </span>
-                  <p className="text-2xl sm:text-3xl font-extrabold font-mono text-[#34D399] mt-1">
+                  <p className="text-2xl font-bold font-mono text-[#2FBF8F] mt-0.5">
                     {activeLead.phone}
-                  </p>
-                  <p className="text-[14px] text-[#A1A1AA] mt-1">
-                    Persona: {activeLead.persona} Showroom Desk
                   </p>
                 </div>
 
                 {isDialing ? (
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-3 h-[52px] px-6 rounded-control bg-[#34D399]/20 border border-[#34D399]/40 text-[#34D399] text-[15px] font-mono font-bold">
-                      <span className="h-3 w-3 rounded-full bg-[#34D399] animate-ping" />
-                      <span>In Call: 00:{dialDuration < 10 ? `0${dialDuration}` : dialDuration}</span>
-                    </div>
+                  <div className="flex items-center gap-2 h-10 px-4 rounded-control bg-[rgba(47,191,143,0.15)] text-[#2FBF8F] text-[13px] font-mono font-bold">
+                    <span className="h-2 w-2 rounded-full bg-[#2FBF8F] animate-ping" />
+                    <span>In Call: 00:{dialDuration < 10 ? `0${dialDuration}` : dialDuration}</span>
                   </div>
                 ) : (
                   <Button
                     variant="primary"
-                    size="md"
+                    size="sm"
                     onClick={handleStartCall}
                     icon={<PhoneCall className="h-4 w-4" />}
                   >
@@ -275,50 +258,43 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
                 )}
               </div>
 
-              {/* TELEPROMPTER SCRIPT */}
-              <div className="p-6 rounded-2xl bg-[#07070A] border border-[#6366F1]/30 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[14px] font-mono font-bold uppercase tracking-eyebrow text-[#A5B4FC] flex items-center gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    Teleprompter Pitch Script // Jaipur Artisan Guild
-                  </span>
+              {/* Teleprompter Script */}
+              <div className="p-4 rounded-panel bg-[#07090C] border border-[rgba(124,141,181,0.2)] space-y-2.5 text-[14px]">
+                <div className="flex items-center gap-1.5 text-[12px] font-mono font-bold uppercase tracking-eyebrow text-[#7C8DB5]">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>Teleprompter Script</span>
                 </div>
 
-                <div className="space-y-3 text-[15px] text-[#F5F5F7] leading-[1.8] font-sans">
-                  <p className="p-4 rounded-xl bg-[#0E0E12] border border-white/[0.06]">
-                    <strong className="text-[#F59E0B]">Opener:</strong> "Hello, good morning! My name is Rameshwar, calling from the Jaipur Artisan Guild in India. I was hoping to speak briefly with {activeLead.contactName} or whoever oversees your sound healing and singing bowl inventory."
+                <div className="space-y-2 text-[#E5E9F0] leading-relaxed">
+                  <p className="p-2.5 rounded-lg bg-[#10151C]">
+                    <strong className="text-[#2FBF8F]">Opener:</strong> "Hello, my name is Rameshwar, calling from the Jaipur Artisan Collective in India. I was hoping to speak briefly with {activeLead.contactName} regarding your sound therapy inventory."
                   </p>
-                  <p className="p-4 rounded-xl bg-[#0E0E12] border border-white/[0.06]">
-                    <strong className="text-[#34D399]">Value Pitch:</strong> "We supply handcrafted 7-metal Tibetan sound bowls tuned to 432Hz directly to showrooms across {activeLead.state}. Because we forge them in our own artisan collective, our wholesale prices are 35-40% below US distributors, with low MOQ of just 25 units."
+                  <p className="p-2.5 rounded-lg bg-[#10151C]">
+                    <strong className="text-[#7C8DB5]">Pitch:</strong> "We supply handcrafted 7-metal Tibetan bowls tuned to 432Hz directly to showrooms across {activeLead.state} at 35% below US distributor rates with low 25-unit MOQ."
                   </p>
-                  <p className="p-4 rounded-xl bg-[#0E0E12] border border-white/[0.06]">
-                    <strong className="text-[#A5B4FC]">The Email Capture:</strong> "I’d love to send you our 2026 Wholesale Export Catalog PDF with FOB & DDP pricing to {activeLead.city}. What is the best direct email address to forward the catalog to?"
+                  <p className="p-2.5 rounded-lg bg-[#10151C]">
+                    <strong className="text-[#2FBF8F]">Email Ask:</strong> "What is the best procurement email to forward our 2026 Wholesale Export Catalog PDF with FOB pricing?"
                   </p>
                 </div>
               </div>
 
-              {/* INSTANT EMAIL CAPTURE & CONVERSION */}
-              <div className="p-6 rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/30 space-y-4">
-                <div>
-                  <h4 className="text-[16px] font-bold text-[#F59E0B] font-display">
-                    Convert Phone Lead ➔ Verified Email Lead
-                  </h4>
-                  <p className="text-[14px] text-[#A1A1AA] mt-0.5">
-                    Save the captured email to immediately upgrade this prospect and dispatch the catalog deck.
-                  </p>
-                </div>
+              {/* Instant Email Capture */}
+              <div className="p-4 rounded-panel bg-[#161C25] space-y-2.5">
+                <span className="text-[12px] font-mono uppercase tracking-eyebrow text-[#2FBF8F] font-semibold">
+                  Convert Phone Lead ➔ Verified Email Lead
+                </span>
 
-                <div className="flex flex-col sm:flex-row items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-center gap-2.5">
                   <input
                     type="email"
-                    placeholder="Enter captured buyer email (e.g. buyer@showroom.com)..."
+                    placeholder="Enter buyer email address..."
                     value={capturedEmail}
                     onChange={(e) => setCapturedEmail(e.target.value)}
-                    className="w-full sm:flex-1 h-[52px] rounded-control bg-[#0E0E12] border border-white/10 px-5 text-[15px] font-mono text-[#F5F5F7] placeholder-[#6B6B75] focus:outline-none focus:border-[#F59E0B]"
+                    className="w-full sm:flex-1 h-10 rounded-control bg-[#10151C] border border-[rgba(148,163,184,0.12)] px-3 text-[13px] font-mono text-[#E5E9F0] focus:outline-none focus:border-[#2FBF8F]"
                   />
                   <Button
                     variant="primary"
-                    size="md"
+                    size="sm"
                     onClick={() => handleEndCall('Interested - Requested Email')}
                     disabled={!capturedEmail}
                     className="shrink-0 w-full sm:w-auto"
@@ -328,56 +304,53 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
                 </div>
               </div>
 
-              {/* Notes & 44px Outcome Action Button Group */}
-              <div className="space-y-4">
-                <label className="block text-[13px] font-mono uppercase tracking-eyebrow text-[#A1A1AA] font-semibold">
-                  Call Notes / Outcome Logging
-                </label>
+              {/* Call Notes & 44px Buttons */}
+              <div className="space-y-3">
                 <textarea
-                  rows={3}
-                  placeholder="Record bowl sizes requested (7-inch chakra, 12-inch gong), follow-up timelines..."
+                  rows={2}
+                  placeholder="Record call notes, bowl sizes discussed..."
                   value={callNotes}
                   onChange={(e) => setCallNotes(e.target.value)}
-                  className="w-full rounded-2xl bg-[#0E0E12] border border-white/10 p-4 text-[15px] text-[#F5F5F7] placeholder-[#6B6B75] focus:outline-none focus:border-[#F59E0B] resize-none leading-relaxed font-sans"
+                  className="w-full rounded-control bg-[#161C25] border border-[rgba(148,163,184,0.12)] p-3 text-[13px] text-[#E5E9F0] placeholder-[#667085] focus:outline-none focus:border-[#2FBF8F] resize-none"
                 />
 
-                <div className="flex flex-wrap items-center gap-3 pt-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="h-11 px-5 border-[#34D399]/40 text-[#34D399] hover:bg-[#34D399]/15"
+                    className="h-11 px-4 border-[rgba(47,191,143,0.3)] text-[#2FBF8F] hover:bg-[rgba(47,191,143,0.1)]"
                     onClick={() => handleEndCall('Interested - Requested Email')}
                   >
-                    Interested (Requested Email)
+                    Interested (Email Req)
                   </Button>
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="h-11 px-5"
+                    className="h-11 px-4"
                     onClick={() => handleEndCall('Voicemail Left')}
                   >
-                    Voicemail Left
+                    Voicemail
                   </Button>
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="h-11 px-5 border-[#6366F1]/40 text-[#A5B4FC] hover:bg-[#6366F1]/15"
+                    className="h-11 px-4 border-[rgba(124,141,181,0.3)] text-[#7C8DB5]"
                     onClick={() => handleEndCall('Follow-up Scheduled')}
                   >
-                    Follow-up Scheduled
+                    Follow-up
                   </Button>
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="h-11 px-5 text-[#A1A1AA]"
+                    className="h-11 px-4 text-[#9AA4B2]"
                     onClick={() => handleEndCall('Gatekeeper Blocked')}
                   >
-                    Gatekeeper Blocked
+                    Gatekeeper
                   </Button>
                   <Button
                     variant="danger"
                     size="sm"
-                    className="h-11 px-5"
+                    className="h-11 px-4"
                     onClick={() => handleEndCall('Not Interested')}
                   >
                     Not Interested
@@ -390,6 +363,8 @@ export const ColdCallingView: React.FC<ColdCallingViewProps> = ({
         )}
 
       </div>
+
+      <div className="h-16" />
 
     </div>
   );

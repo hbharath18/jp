@@ -17,7 +17,6 @@ export const PageHero: React.FC<PageHeroProps> = ({
   description,
   actions
 }) => {
-  // If gradientWord is provided, split the title and style the word
   const renderTitle = () => {
     if (!gradientWord || !title.includes(gradientWord)) {
       return title;
@@ -26,7 +25,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
     return (
       <>
         {parts[0]}
-        <span className="bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#FCD34D] bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-[#2FBF8F] to-[#7C8DB5] bg-clip-text text-transparent">
           {gradientWord}
         </span>
         {parts[1]}
@@ -35,30 +34,27 @@ export const PageHero: React.FC<PageHeroProps> = ({
   };
 
   return (
-    <div className="pt-2 sm:pt-6 pb-10 border-b border-white/[0.06]">
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-        
-        {/* Left: Eyebrow, H1, Description */}
-        <div className="max-w-3xl space-y-4">
+    <div className="pb-8 border-b border-[rgba(148,163,184,0.12)]">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="max-w-3xl space-y-3">
           {eyebrow && (
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#F59E0B]/10 border border-[#F59E0B]/20 px-3.5 py-1 text-[13px] font-mono font-semibold uppercase tracking-eyebrow text-[#F59E0B]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(47,191,143,0.12)] border border-[rgba(47,191,143,0.25)] px-3 py-1 text-[12px] font-mono font-semibold uppercase tracking-eyebrow text-[#2FBF8F]">
               {eyebrowIcon}
               <span>{eyebrow}</span>
             </div>
           )}
 
-          <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold font-display text-[#F5F5F7] tracking-tight leading-[1.12]">
+          <h1 className="text-3xl sm:text-4xl font-bold font-display text-[#E5E9F0] tracking-tight leading-tight">
             {renderTitle()}
           </h1>
 
-          <p className="text-[17px] sm:text-[18px] text-[#A1A1AA] leading-[1.65] max-w-2xl font-normal">
+          <p className="text-[15px] sm:text-[16px] text-[#9AA4B2] leading-normal max-w-2xl font-normal">
             {description}
           </p>
         </div>
 
-        {/* Right: Actions */}
         {actions && (
-          <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             {actions}
           </div>
         )}

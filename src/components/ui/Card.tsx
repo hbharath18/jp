@@ -15,14 +15,14 @@ export const Card: React.FC<CardProps> = ({
   ...props
 }) => {
   const paddingClasses = {
-    sm: 'p-6 sm:p-7',
-    md: 'p-7 sm:p-8',
-    lg: 'p-8 sm:p-10'
+    sm: 'p-5 sm:p-6',
+    md: 'p-6 sm:p-7',
+    lg: 'p-7 sm:p-8'
   }[padding];
 
   return (
     <div
-      className={`glass-card ${interactive ? 'glass-card-hover cursor-pointer' : ''} ${paddingClasses} ${className}`}
+      className={`theme-card ${interactive ? 'theme-card-hover cursor-pointer' : ''} ${paddingClasses} ${className}`}
       {...props}
     >
       {children}

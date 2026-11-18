@@ -6,17 +6,13 @@ import {
   CheckCircle2, 
   AlertTriangle, 
   XCircle, 
-  Sparkles, 
   Download, 
   Trash2, 
   RefreshCw, 
   Phone, 
-  Mail, 
-  Building2, 
   PhoneCall, 
   Send, 
-  ShieldCheck,
-  Check
+  ShieldCheck 
 } from 'lucide-react';
 import { Lead, EmailValidationStatus, AIClassificationStatus } from '../types';
 import { PageHero } from '../components/ui/PageHero';
@@ -50,10 +46,9 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
 
   const triggerNotification = (msg: string) => {
     setNotification(msg);
-    setTimeout(() => setNotification(null), 3500);
+    setTimeout(() => setNotification(null), 3000);
   };
 
-  // Run Deduplication
   const handleRunDeduplication = () => {
     setIsDeduplicating(true);
     setTimeout(() => {
@@ -76,7 +71,7 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
           return {
             ...l,
             isDuplicate: true,
-            duplicateReason: `Duplicate detected: Domain ${domain} or email matches existing record`
+            duplicateReason: `Duplicate detected: Domain ${domain}`
           };
         }
         return l;
@@ -84,23 +79,18 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
 
       onUpdateLeads(updated);
       setIsDeduplicating(false);
-      triggerNotification(`Deduplication Engine completed! Flagged duplicate records.`);
-    }, 1200);
+      triggerNotification(`Deduplication check completed.`);
+    }, 1000);
   };
 
-  // Purge Duplicates
   const handlePurgeDuplicates = () => {
     const dups = leads.filter(l => l.isDuplicate).length;
-    if (dups === 0) {
-      triggerNotification('No duplicate records to purge.');
-      return;
-    }
+    if (dups === 0) return;
     const clean = leads.filter(l => !l.isDuplicate);
     onUpdateLeads(clean);
-    triggerNotification(`Purged ${dups} duplicate records from database!`);
+    triggerNotification(`Purged ${dups} duplicate records.`);
   };
 
-  // Run Email Validator
   const handleRunEmailValidator = () => {
     setIsValidating(true);
     setTimeout(() => {
@@ -118,23 +108,18 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
 
       onUpdateLeads(updated);
       setIsValidating(false);
-      triggerNotification('Email Validator completed: Syntax, MX records, and mailbox verified.');
-    }, 1500);
+      triggerNotification('Email deliverability check completed.');
+    }, 1200);
   };
 
-  // Purge Invalid Emails
   const handlePurgeInvalidEmails = () => {
     const invalidCount = leads.filter(l => l.emailStatus === 'Invalid').length;
-    if (invalidCount === 0) {
-      triggerNotification('No invalid emails found in current database.');
-      return;
-    }
+    if (invalidCount === 0) return;
     const filtered = leads.filter(l => l.emailStatus !== 'Invalid');
     onUpdateLeads(filtered);
-    triggerNotification(`Purged ${invalidCount} invalid/bounced email records to safeguard sender reputation.`);
+    triggerNotification(`Purged ${invalidCount} invalid emails.`);
   };
 
-  // Export Clean CSV
   const handleExportCSV = () => {
     const clean = leads.filter(l => !l.isDuplicate && l.emailStatus !== 'Invalid');
     let csv = "Company Name,Contact Name,Title,City,State,Phone,Email,Email Status,AI Classification,Confidence,Source,Estimated Volume\n";
@@ -144,7 +129,7 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
     const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csv);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `tradepulse_us_buyers_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `tradepulse_us_buyers_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -171,23 +156,22 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
   const duplicateCount = leads.filter(l => l.isDuplicate).length;
 
   return (
-    <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-300">
+    <div className="space-y-10 animate-in fade-in duration-200">
       
-      {/* Toast Alert */}
       {notification && (
-        <div className="fixed bottom-8 right-8 z-50 rounded-2xl bg-[#0E0E12] border border-[#F59E0B]/40 p-5 text-[15px] text-[#F5F5F7] shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-3">
-          <CheckCircle2 className="h-5 w-5 text-[#F59E0B] shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 rounded-panel bg-[#161C25] border border-[rgba(47,191,143,0.3)] p-4 text-[14px] text-[#E5E9F0] shadow-lg flex items-center gap-2.5 animate-in slide-in-from-bottom-2">
+          <CheckCircle2 className="h-4 w-4 text-[#2FBF8F] shrink-0" />
           <span>{notification}</span>
         </div>
       )}
 
-      {/* 1. PAGE HERO */}
+      {/* 1. PAGE HERO (text-4xl, 1 sentence) */}
       <PageHero
-        eyebrow="Clean Pipeline & Hygiene // Database Integrity"
-        eyebrowIcon={<Database className="h-4 w-4 text-[#F59E0B]" />}
+        eyebrow="CRM Data Hygiene"
+        eyebrowIcon={<Database className="h-3.5 w-3.5 text-[#2FBF8F]" />}
         title="Master US Buyer Database"
         gradientWord="Database"
-        description="Deduplicated CRM table with domain collision guards, MX mailbox deliverability checks, and Gemini AI wholesale qualification."
+        description="Deduplicated CRM directory with MX deliverability checks and Gemini B2B classification."
         actions={
           <>
             <Button
@@ -195,18 +179,18 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
               size="md"
               onClick={handleRunDeduplication}
               disabled={isDeduplicating}
-              icon={<CopyX className="h-4 w-4 text-orange-400" />}
+              icon={<CopyX className="h-4 w-4 text-[#C9A66B]" />}
             >
-              {isDeduplicating ? 'Checking Duplicates...' : 'Deduplication Engine'}
+              {isDeduplicating ? 'Checking...' : 'Check Duplicates'}
             </Button>
             <Button
               variant="secondary"
               size="md"
               onClick={handleRunEmailValidator}
               disabled={isValidating}
-              icon={isValidating ? <RefreshCw className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4 text-[#34D399]" />}
+              icon={isValidating ? <RefreshCw className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4 text-[#2FBF8F]" />}
             >
-              Run Email Validator
+              Verify Emails
             </Button>
             <Button
               variant="primary"
@@ -214,58 +198,44 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
               onClick={handleExportCSV}
               icon={<Download className="h-4 w-4" />}
             >
-              Export Clean CSV
+              Export CSV
             </Button>
           </>
         }
       />
 
-      {/* 2. DEDUPLICATION & INVALID EMAIL WARNING BANNERS */}
+      {/* 2. WARNING BANNERS */}
       {duplicateCount > 0 && (
-        <Card padding="md" className="border-rose-500/30 bg-rose-950/15">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <AlertTriangle className="h-6 w-6 text-[#F87171] shrink-0" />
-              <div>
-                <p className="text-[16px] font-bold text-[#F5F5F7]">
-                  {duplicateCount} duplicate records detected by website domain / phone cross-reference.
-                </p>
-                <p className="text-[14px] text-[#A1A1AA] mt-0.5">
-                  Purge duplicate entries before initiating email campaigns to avoid double-pitching buyers.
-                </p>
-              </div>
+        <Card padding="sm" className="border-[rgba(224,122,122,0.25)] bg-[rgba(224,122,122,0.06)]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[14px]">
+            <div className="flex items-center gap-2.5 text-[#E5E9F0]">
+              <AlertTriangle className="h-4 w-4 text-[#E07A7A] shrink-0" />
+              <span>{duplicateCount} duplicate records detected.</span>
             </div>
             <Button
               variant="danger"
               size="sm"
               onClick={handlePurgeDuplicates}
-              icon={<Trash2 className="h-4 w-4" />}
+              icon={<Trash2 className="h-3.5 w-3.5" />}
             >
-              Purge All Duplicates
+              Purge Duplicates
             </Button>
           </div>
         </Card>
       )}
 
       {leads.some(l => l.emailStatus === 'Invalid') && (
-        <Card padding="md" className="border-[#FBBF24]/30 bg-amber-950/15">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <XCircle className="h-6 w-6 text-[#FBBF24] shrink-0" />
-              <div>
-                <p className="text-[16px] font-bold text-[#F5F5F7]">
-                  Invalid / dead MX domains found in active database.
-                </p>
-                <p className="text-[14px] text-[#A1A1AA] mt-0.5">
-                  Purging protects your Google Workspace / Gmail sender IP warming reputation.
-                </p>
-              </div>
+        <Card padding="sm" className="border-[rgba(201,166,107,0.25)] bg-[rgba(201,166,107,0.06)]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[14px]">
+            <div className="flex items-center gap-2.5 text-[#E5E9F0]">
+              <XCircle className="h-4 w-4 text-[#C9A66B] shrink-0" />
+              <span>Invalid MX domains found.</span>
             </div>
             <Button
               variant="primary"
               size="sm"
               onClick={handlePurgeInvalidEmails}
-              icon={<Trash2 className="h-4 w-4" />}
+              icon={<Trash2 className="h-3.5 w-3.5" />}
             >
               Purge Invalid Emails
             </Button>
@@ -273,249 +243,221 @@ export const DataMasterView: React.FC<DataMasterViewProps> = ({
         </Card>
       )}
 
-      {/* 3. TOOLBAR & CONTROLS */}
-      <Card padding="md">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-          {/* Search Box (54px tall) */}
-          <div className="relative flex-1 max-w-lg">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#6B6B75]" />
+      {/* 3. TOOLBAR CONTROLS */}
+      <Card padding="sm">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#667085]" />
             <input
               type="text"
-              placeholder="Search by showroom name, decision maker, city, state, email, phone..."
+              placeholder="Search by name, city, state, email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-[52px] rounded-control bg-[#0E0E12] border border-white/10 pl-12 pr-4 text-[15px] text-[#F5F5F7] placeholder-[#6B6B75] focus:outline-none focus:border-[#F59E0B] focus:ring-2 focus:ring-[#F59E0B]/30 transition-all"
+              className="w-full h-11 rounded-control bg-[#161C25] border border-[rgba(148,163,184,0.12)] pl-10 pr-4 text-[14px] text-[#E5E9F0] placeholder-[#667085] focus:outline-none focus:border-[#2FBF8F]"
             />
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as any)}
-              className="h-[52px] rounded-control bg-[#0E0E12] border border-white/10 px-4 text-[14px] text-[#F5F5F7] focus:outline-none focus:border-[#F59E0B] font-medium cursor-pointer"
+              className="h-11 rounded-control bg-[#161C25] border border-[rgba(148,163,184,0.12)] px-3 text-[13px] text-[#E5E9F0] focus:outline-none focus:border-[#2FBF8F] font-medium cursor-pointer"
             >
               <option value="All">All MX Statuses</option>
-              <option value="Valid">Valid (Deliverable)</option>
-              <option value="Risky">Risky (Generic)</option>
-              <option value="Invalid">Invalid (Bounced)</option>
-              <option value="Pending">Pending Check</option>
+              <option value="Valid">Valid</option>
+              <option value="Risky">Risky</option>
+              <option value="Invalid">Invalid</option>
+              <option value="Pending">Pending</option>
             </select>
 
             <select
               value={classificationFilter}
               onChange={(e) => setClassificationFilter(e.target.value as any)}
-              className="h-[52px] rounded-control bg-[#0E0E12] border border-white/10 px-4 text-[14px] text-[#F5F5F7] focus:outline-none focus:border-[#F59E0B] font-medium cursor-pointer"
+              className="h-11 rounded-control bg-[#161C25] border border-[rgba(148,163,184,0.12)] px-3 text-[13px] text-[#E5E9F0] focus:outline-none focus:border-[#2FBF8F] font-medium cursor-pointer"
             >
-              <option value="All">All Buyer Tiers</option>
-              <option value="B2B Business Buyer">B2B Business Buyer</option>
-              <option value="Individual / Retail Consumer">Individual Consumer</option>
+              <option value="All">All Tiers</option>
+              <option value="B2B Business Buyer">B2B Buyer</option>
+              <option value="Individual / Retail Consumer">Individual</option>
             </select>
 
             <button
               onClick={() => setShowDuplicatesOnly(!showDuplicatesOnly)}
-              className={`h-[52px] px-5 rounded-control text-[14px] font-medium border transition-colors flex items-center gap-2 ${
+              className={`h-11 px-4 rounded-control text-[13px] font-medium border transition-colors flex items-center gap-2 whitespace-nowrap shrink-0 ${
                 showDuplicatesOnly
-                  ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
-                  : 'bg-[#0E0E12] text-[#A1A1AA] border-white/10 hover:bg-[#15151A] hover:text-[#F5F5F7]'
+                  ? 'bg-[rgba(224,122,122,0.15)] text-[#E07A7A] border-[rgba(224,122,122,0.3)]'
+                  : 'bg-[#161C25] text-[#9AA4B2] border-[rgba(148,163,184,0.12)] hover:text-[#E5E9F0]'
               }`}
             >
-              <CopyX className="h-4 w-4" />
+              <CopyX className="h-3.5 w-3.5" />
               <span>Duplicates ({duplicateCount})</span>
             </button>
           </div>
         </div>
       </Card>
 
-      {/* 4. MASTER BUYER DATA TABLE (76px rows, sticky header, avatar initials) */}
-      <div className="glass-card overflow-hidden">
+      {/* 4. DATA TABLE (64-72px rows, sticky header, subtle hover) */}
+      <div className="theme-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-[15px] border-collapse min-w-[1100px]">
+          <table className="w-full text-left text-[14px] border-collapse min-w-[1000px]">
             <thead>
-              <tr className="border-b border-white/[0.08] bg-[#0E0E12] text-[#A1A1AA] font-mono text-[13px] tracking-eyebrow uppercase">
-                <th className="py-5 px-6">Company / Showroom</th>
-                <th className="py-5 px-6">Decision Maker</th>
-                <th className="py-5 px-6">Location</th>
-                <th className="py-5 px-6">Source</th>
-                <th className="py-5 px-6">Phone Number</th>
-                <th className="py-5 px-6">Email Address</th>
-                <th className="py-5 px-6">Email MX Status</th>
-                <th className="py-5 px-6">Gemini Tier</th>
-                <th className="py-5 px-6 text-right">Actions</th>
+              <tr className="border-b border-[rgba(148,163,184,0.12)] bg-[#10151C] text-[#9AA4B2] font-mono text-[12px] tracking-eyebrow uppercase">
+                <th className="py-4 px-5">Company / Showroom</th>
+                <th className="py-4 px-5">Decision Maker</th>
+                <th className="py-4 px-5">Location</th>
+                <th className="py-4 px-5">Source</th>
+                <th className="py-4 px-5">Phone Number</th>
+                <th className="py-4 px-5">Email Address</th>
+                <th className="py-4 px-5">Status</th>
+                <th className="py-4 px-5">AI Fit</th>
+                <th className="py-4 px-5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.06] text-[#A1A1AA]">
+            <tbody className="divide-y divide-[rgba(148,163,184,0.06)] text-[#9AA4B2]">
               {filteredLeads.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-16 text-center text-[#6B6B75] text-[16px]">
-                    No buyer leads found matching current filter criteria.
+                  <td colSpan={9} className="py-12 text-center text-[#667085] text-[15px]">
+                    No leads found matching current criteria.
                   </td>
                 </tr>
               ) : (
-                filteredLeads.map((lead) => {
-                  const companyInitial = lead.companyName.charAt(0);
+                filteredLeads.map((lead) => (
+                  <tr
+                    key={lead.id}
+                    className="h-[68px] hover:bg-[#161C25] transition-colors"
+                  >
+                    <td className="py-3 px-5">
+                      <div
+                        onClick={() => onSelectLead(lead)}
+                        className="cursor-pointer"
+                      >
+                        <p className="font-semibold text-[#E5E9F0] hover:text-[#2FBF8F] transition-colors truncate">
+                          {lead.companyName}
+                        </p>
+                        <p className="text-[12px] text-[#667085] font-mono truncate">
+                          {lead.category}
+                        </p>
+                      </div>
+                    </td>
 
-                  return (
-                    <tr
-                      key={lead.id}
-                      className={`h-[76px] hover:bg-[#1B1B22] transition-colors relative group ${
-                        lead.isDuplicate ? 'bg-rose-950/10' : ''
-                      }`}
-                    >
-                      {/* Company Name with Avatar Initial Chip */}
-                      <td className="py-4 px-6">
-                        <div
-                          onClick={() => onSelectLead(lead)}
-                          className="cursor-pointer flex items-center gap-3.5"
-                        >
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-[15px] font-bold text-[#F59E0B]">
-                            {companyInitial}
-                          </div>
-                          <div>
-                            <p className="font-bold text-[#F5F5F7] text-[15px] group-hover:text-[#F59E0B] transition-colors">
-                              {lead.companyName}
-                            </p>
-                            <p className="text-[13px] text-[#6B6B75] font-mono">
-                              {lead.category} • {lead.persona}
-                            </p>
-                            {lead.isDuplicate && (
-                              <span className="inline-block mt-0.5 text-[11px] font-bold text-[#F87171] bg-[#F87171]/15 px-2 py-0.5 rounded">
-                                Duplicate Detected
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </td>
+                    <td className="py-3 px-5">
+                      <p className="font-medium text-[#E5E9F0] truncate">{lead.contactName}</p>
+                      <p className="text-[12px] text-[#667085] truncate">{lead.title}</p>
+                    </td>
 
-                      {/* Decision Maker */}
-                      <td className="py-4 px-6">
-                        <p className="font-semibold text-[#F5F5F7] text-[15px]">{lead.contactName}</p>
-                        <p className="text-[13px] text-[#6B6B75]">{lead.title}</p>
-                      </td>
+                    <td className="py-3 px-5 font-mono text-[13px] whitespace-nowrap">
+                      <span className="text-[#E5E9F0]">{lead.city}</span>, {lead.state}
+                    </td>
 
-                      {/* Location */}
-                      <td className="py-4 px-6 font-mono text-[14px]">
-                        <span className="text-[#F5F5F7] font-semibold">{lead.city}</span>, {lead.state}
-                      </td>
+                    <td className="py-3 px-5">
+                      <span className="rounded-full bg-[#161C25] px-2.5 py-0.5 text-[12px] font-mono text-[#9AA4B2] whitespace-nowrap">
+                        {lead.source}
+                      </span>
+                    </td>
 
-                      {/* Sourcing Platform */}
-                      <td className="py-4 px-6">
-                        <span className="rounded-full bg-white/[0.06] px-3 py-1 text-[13px] font-mono text-[#A1A1AA]">
-                          {lead.source}
-                        </span>
-                      </td>
-
-                      {/* Phone Number */}
-                      <td className="py-4 px-6 font-mono text-[14px] text-[#F5F5F7] whitespace-nowrap">
-                        {lead.phone ? (
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() => onAddToDialer(lead)}
-                              className="p-1.5 rounded-lg bg-white/[0.05] hover:bg-[#34D399]/20 text-[#A1A1AA] hover:text-[#34D399] transition-colors"
-                              title="Add to Cold Call Queue"
-                            >
-                              <Phone className="h-3.5 w-3.5" />
-                            </button>
-                            <span>{lead.phone}</span>
-                          </div>
-                        ) : (
-                          <span className="text-[#6B6B75]">No Phone</span>
-                        )}
-                      </td>
-
-                      {/* Email Address */}
-                      <td className="py-4 px-6 font-mono text-[14px]">
-                        {lead.email ? (
-                          <span
-                            className="text-[#F5F5F7] hover:text-[#F59E0B] cursor-pointer"
-                            onClick={() => onSelectLead(lead)}
+                    <td className="py-3 px-5 font-mono text-[13px] text-[#E5E9F0] whitespace-nowrap">
+                      {lead.phone ? (
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => onAddToDialer(lead)}
+                            className="p-1 rounded text-[#667085] hover:text-[#2FBF8F]"
+                            title="Add to Call Queue"
                           >
-                            {lead.email}
-                          </span>
-                        ) : (
-                          <span className="text-[#F59E0B]/80 font-sans italic text-[14px]">Phone Scraped</span>
-                        )}
-                      </td>
+                            <Phone className="h-3 w-3" />
+                          </button>
+                          <span>{lead.phone}</span>
+                        </div>
+                      ) : (
+                        <span className="text-[#667085]">—</span>
+                      )}
+                    </td>
 
-                      {/* Email MX Status */}
-                      <td className="py-4 px-6">
+                    <td className="py-3 px-5 font-mono text-[13px]">
+                      {lead.email ? (
+                        <span
+                          className="text-[#E5E9F0] hover:text-[#2FBF8F] cursor-pointer"
+                          onClick={() => onSelectLead(lead)}
+                        >
+                          {lead.email}
+                        </span>
+                      ) : (
+                        <span className="text-[#9AA4B2] font-sans italic text-[13px]">Phone Only</span>
+                      )}
+                    </td>
+
+                    <td className="py-3 px-5">
+                      <Badge
+                        variant={
+                          lead.emailStatus === 'Valid' ? 'success' :
+                          lead.emailStatus === 'Risky' ? 'warning' :
+                          lead.emailStatus === 'Invalid' ? 'danger' : 'neutral'
+                        }
+                        size="sm"
+                      >
+                        {lead.emailStatus}
+                      </Badge>
+                    </td>
+
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-1.5 whitespace-nowrap">
                         <Badge
-                          variant={
-                            lead.emailStatus === 'Valid' ? 'success' :
-                            lead.emailStatus === 'Risky' ? 'warning' :
-                            lead.emailStatus === 'Invalid' ? 'danger' : 'neutral'
-                          }
+                          variant={lead.aiClassification === 'B2B Business Buyer' ? 'emerald' : 'neutral'}
                           size="sm"
                         >
-                          {lead.emailStatus}
+                          {lead.aiClassification === 'B2B Business Buyer' ? 'B2B' : 'Consumer'}
                         </Badge>
-                      </td>
+                        <span className="text-[12px] font-mono text-[#9AA4B2]">
+                          {lead.b2bConfidence}%
+                        </span>
+                      </div>
+                    </td>
 
-                      {/* Gemini AI Classification */}
-                      <td className="py-4 px-6">
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            variant={lead.aiClassification === 'B2B Business Buyer' ? 'indigo' : 'neutral'}
-                            size="sm"
+                    <td className="py-3 px-5 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {lead.email && (
+                          <button
+                            onClick={() => onComposeEmail(lead)}
+                            className="p-1.5 rounded-lg text-[#9AA4B2] hover:text-[#2FBF8F] hover:bg-[#161C25]"
+                            title="Compose Pitch"
                           >
-                            {lead.aiClassification === 'B2B Business Buyer' ? 'B2B Buyer' : 'Individual'}
-                          </Badge>
-                          <span className="text-[13px] font-mono font-bold text-[#A1A1AA]">
-                            {lead.b2bConfidence}%
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Actions */}
-                      <td className="py-4 px-6 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          {lead.email && (
-                            <button
-                              onClick={() => onComposeEmail(lead)}
-                              className="p-2 rounded-xl bg-white/[0.05] hover:bg-[#F59E0B] hover:text-[#07070A] text-[#F5F5F7] transition-all"
-                              title="Compose Pitch Email"
-                            >
-                              <Send className="h-4 w-4" />
-                            </button>
-                          )}
-                          {lead.phone && (
-                            <button
-                              onClick={() => onAddToDialer(lead)}
-                              className="p-2 rounded-xl bg-white/[0.05] hover:bg-[#34D399] hover:text-[#07070A] text-[#F5F5F7] transition-all"
-                              title="Open in Cold Calling Queue"
-                            >
-                              <PhoneCall className="h-4 w-4" />
-                            </button>
-                          )}
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => onSelectLead(lead)}
+                            <Send className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                        {lead.phone && (
+                          <button
+                            onClick={() => onAddToDialer(lead)}
+                            className="p-1.5 rounded-lg text-[#9AA4B2] hover:text-[#2FBF8F] hover:bg-[#161C25]"
+                            title="Open Dialer"
                           >
-                            View
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
+                            <PhoneCall className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => onSelectLead(lead)}
+                        >
+                          View
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
         </div>
 
-        {/* Table Footer */}
-        <div className="flex items-center justify-between p-6 border-t border-white/[0.08] bg-[#0E0E12] text-[14px] font-mono text-[#A1A1AA]">
-          <span>
-            Displaying <strong className="text-[#F5F5F7]">{filteredLeads.length}</strong> of {leads.length} total buyer leads
-          </span>
-          <div className="flex items-center gap-6">
-            <span className="text-[#34D399]">Valid: {leads.filter(l => l.emailStatus === 'Valid').length}</span>
-            <span className="text-[#A5B4FC]">B2B Qualified: {leads.filter(l => l.aiClassification === 'B2B Business Buyer').length}</span>
-            <span className="text-[#F87171]">Duplicates: {duplicateCount}</span>
+        <div className="flex items-center justify-between p-4 border-t border-[rgba(148,163,184,0.12)] bg-[#10151C] text-[13px] font-mono text-[#9AA4B2]">
+          <span>{filteredLeads.length} of {leads.length} leads</span>
+          <div className="flex items-center gap-4">
+            <span className="text-[#2FBF8F]">Valid: {leads.filter(l => l.emailStatus === 'Valid').length}</span>
+            <span className="text-[#7C8DB5]">B2B: {leads.filter(l => l.aiClassification === 'B2B Business Buyer').length}</span>
+            <span className="text-[#E07A7A]">Dups: {duplicateCount}</span>
           </div>
         </div>
       </div>
+
+      <div className="h-16" />
 
     </div>
   );

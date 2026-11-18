@@ -18,25 +18,24 @@ export const Select: React.FC<SelectProps> = ({
   return (
     <div className="w-full space-y-2">
       {label && (
-        <label className="block text-[13px] font-mono uppercase tracking-eyebrow text-[#A1A1AA] font-semibold">
+        <label className="block text-[12px] font-mono uppercase tracking-eyebrow text-[#9AA4B2] font-semibold">
           {label}
         </label>
       )}
       <div className="relative w-full">
         {icon && (
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6B6B75] pointer-events-none">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#667085] pointer-events-none">
             {icon}
           </div>
         )}
         <select
-          className={`w-full h-[54px] appearance-none rounded-control bg-[#0E0E12] border border-white/10 ${
-            icon ? 'pl-12' : 'pl-5'
-          } pr-12 text-[16px] font-medium text-[#F5F5F7] transition-all duration-200 focus:outline-none focus:border-[#F59E0B] focus:ring-2 focus:ring-[#F59E0B]/30 cursor-pointer ${className}`}
+          className={`w-full h-[52px] appearance-none rounded-control bg-[#10151C] border border-[rgba(148,163,184,0.12)] ${icon ? 'pl-11' : 'pl-4'
+            } pr-10 text-[15px] font-medium text-[#E5E9F0] transition-all duration-200 focus:outline-none focus:border-[#2FBF8F] focus:ring-1 focus:ring-[#2FBF8F]/30 cursor-pointer ${className}`}
           {...props}
         >
           {children}
         </select>
-        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#A1A1AA] pointer-events-none transition-transform" />
+        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9AA4B2] pointer-events-none" />
       </div>
     </div>
   );

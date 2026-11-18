@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import {
-  X,
-  FileText,
-  Download,
-  Share2,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  ShieldCheck,
-  Award,
-  Sparkles,
-  Layers,
-  Scale,
-  Ship,
-  Volume2
+import { 
+  X, 
+  FileText, 
+  Download, 
+  Share2, 
+  Check, 
+  ChevronLeft, 
+  ChevronRight, 
+  ShieldCheck, 
+  Award, 
+  Sparkles, 
+  Layers, 
+  Scale, 
+  Ship, 
+  Volume2 
 } from 'lucide-react';
 import { Button } from './ui/Button';
 
@@ -23,8 +23,8 @@ interface CatalogModalProps {
   onAttachToPitch?: () => void;
 }
 
-export const CatalogModal: React.FC<CatalogModalProps> = ({
-  isOpen,
+export const CatalogModal: React.FC<CatalogModalProps> = ({ 
+  isOpen, 
   onClose,
   onAttachToPitch
 }) => {
@@ -41,272 +41,223 @@ export const CatalogModal: React.FC<CatalogModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/85 backdrop-blur-xl animate-in fade-in duration-200">
-      <div
-        className="relative flex flex-col w-full max-w-5xl max-h-[92vh] rounded-card bg-[#0E0E12] border border-white/15 shadow-2xl overflow-hidden"
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div 
+        className="relative flex flex-col w-full max-w-4xl max-h-[90vh] rounded-card bg-[#10151C] border border-[rgba(148,163,184,0.18)] shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-white/[0.08] bg-[#07070A]/80">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B]">
-              <FileText className="h-6 w-6" />
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[rgba(148,163,184,0.12)] bg-[#0A0D12]">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(47,191,143,0.12)] text-[#2FBF8F]">
+              <FileText className="h-5 w-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <h3 className="text-[18px] font-bold text-[#F5F5F7] tracking-tight">
-                  India_Handcrafted_Singing_Bowls_Catalog_2026.pdf
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h3 className="text-[16px] font-bold text-[#E5E9F0] truncate">
+                  Singing_Bowls_Catalog_2026.pdf
                 </h3>
-                <span className="rounded-full bg-[#F59E0B]/15 border border-[#F59E0B]/30 px-3 py-0.5 text-[13px] font-mono font-bold text-[#F59E0B]">
-                  4.2 MB • Verified PDF/A
+                <span className="rounded-full bg-[rgba(47,191,143,0.12)] px-2 py-0.5 text-[11px] font-mono font-medium text-[#2FBF8F] whitespace-nowrap shrink-0">
+                  4.2 MB
                 </span>
               </div>
-              <p className="text-[14px] text-[#A1A1AA] mt-0.5">
-                Official Export Presentation Deck for US Wholesalers & Sound Healing Showrooms
+              <p className="text-[13px] text-[#9AA4B2] truncate">
+                Wholesale Export Presentation Deck for US Showrooms
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 shrink-0">
             <Button
               variant="secondary"
               size="sm"
               onClick={handleCopyLink}
-              icon={copied ? <Check className="h-4 w-4 text-[#34D399]" /> : <Share2 className="h-4 w-4" />}
+              icon={copied ? <Check className="h-3.5 w-3.5 text-[#2FBF8F]" /> : <Share2 className="h-3.5 w-3.5" />}
             >
-              {copied ? 'Link Copied' : 'Share Link'}
+              {copied ? 'Copied' : 'Share'}
             </Button>
             <Button
               variant="primary"
               size="sm"
-              onClick={() => alert('Downloading official India_Handcrafted_Singing_Bowls_Catalog_2026.pdf')}
-              icon={<Download className="h-4 w-4" />}
+              onClick={() => alert('Downloading official catalog PDF simulation')}
+              icon={<Download className="h-3.5 w-3.5" />}
             >
-              Download PDF
+              Download
             </Button>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-[#A1A1AA] hover:text-white hover:bg-white/[0.06] transition-colors"
+              className="p-1.5 rounded-lg text-[#9AA4B2] hover:text-[#E5E9F0] hover:bg-white/[0.05]"
             >
-              <X className="h-6 w-6" />
+              <X className="h-5 w-5" />
             </button>
           </div>
         </div>
 
-        {/* PDF Page Viewer Body */}
-        <div className="flex-1 overflow-y-auto p-8 sm:p-12 bg-[#07070A]">
-
+        {/* Content Viewer */}
+        <div className="flex-1 overflow-y-auto p-6 bg-[#0A0D12]">
           {currentPage === 1 && (
-            <div className="relative rounded-card bg-gradient-to-b from-[#15151A] to-[#0E0E12] border border-white/10 p-10 sm:p-16 text-center overflow-hidden space-y-8">
-              <div className="inline-flex items-center gap-2.5 rounded-full bg-[#F59E0B]/12 border border-[#F59E0B]/30 px-4 py-1.5 text-[14px] font-semibold text-[#F59E0B]">
-                <Sparkles className="h-4 w-4" />
-                <span>Jaipur & Moradabad Artisan Guild • 2026 US Wholesale Catalog</span>
+            <div className="rounded-panel bg-[#10151C] border border-[rgba(148,163,184,0.12)] p-8 text-center space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(47,191,143,0.12)] border border-[rgba(47,191,143,0.25)] px-3 py-1 text-[12px] font-semibold text-[#2FBF8F]">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>Jaipur & Moradabad Guild • 2026 Export Collection</span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-extrabold text-[#F5F5F7] tracking-tight leading-[1.15] max-w-3xl mx-auto font-display">
-                Sacred Sound Vibrations: Authentic 7-Metal Hand-Hammered Himalayan Singing Bowls
-              </h1>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#E5E9F0] tracking-tight max-w-2xl mx-auto">
+                Authentic 7-Metal Hand-Hammered Himalayan Singing Bowls
+              </h2>
 
-              <p className="text-[17px] text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
-                Direct export collections crafted by multi-generational metalsmiths in Rajasthan & Uttar Pradesh. Tuned to 432Hz Solfeggio frequencies for acoustic therapy, spas, and wellness sanctuaries.
+              <p className="text-[15px] text-[#9AA4B2] max-w-xl mx-auto">
+                Tuned to 432Hz Solfeggio frequencies for acoustic healing, spas, and boutique showrooms.
               </p>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 max-w-3xl mx-auto pt-4">
-                <div className="p-5 rounded-2xl bg-[#07070A] border border-white/10 text-center">
-                  <Award className="h-6 w-6 text-[#F59E0B] mx-auto mb-2" />
-                  <p className="text-[13px] text-[#A1A1AA]">Purity Standard</p>
-                  <p className="text-[15px] font-bold text-[#F5F5F7] mt-0.5">7-Metal Bronze</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto pt-2">
+                <div className="p-4 rounded-xl bg-[#161C25] border border-[rgba(148,163,184,0.1)] text-center">
+                  <Award className="h-5 w-5 text-[#2FBF8F] mx-auto mb-1.5" />
+                  <p className="text-[12px] text-[#9AA4B2]">Composition</p>
+                  <p className="text-[14px] font-bold text-[#E5E9F0]">7-Metal Bronze</p>
                 </div>
-                <div className="p-5 rounded-2xl bg-[#07070A] border border-white/10 text-center">
-                  <Volume2 className="h-6 w-6 text-[#6366F1] mx-auto mb-2" />
-                  <p className="text-[13px] text-[#A1A1AA]">Acoustic Pitch</p>
-                  <p className="text-[15px] font-bold text-[#F5F5F7] mt-0.5">432Hz Certified</p>
+                <div className="p-4 rounded-xl bg-[#161C25] border border-[rgba(148,163,184,0.1)] text-center">
+                  <Volume2 className="h-5 w-5 text-[#7C8DB5] mx-auto mb-1.5" />
+                  <p className="text-[12px] text-[#9AA4B2]">Acoustic Pitch</p>
+                  <p className="text-[14px] font-bold text-[#E5E9F0]">432Hz Solfeggio</p>
                 </div>
-                <div className="p-5 rounded-2xl bg-[#07070A] border border-white/10 text-center">
-                  <Scale className="h-6 w-6 text-[#34D399] mx-auto mb-2" />
-                  <p className="text-[13px] text-[#A1A1AA]">Wholesale MOQ</p>
-                  <p className="text-[15px] font-bold text-[#F5F5F7] mt-0.5">25 Units / 5 Sets</p>
+                <div className="p-4 rounded-xl bg-[#161C25] border border-[rgba(148,163,184,0.1)] text-center">
+                  <Scale className="h-5 w-5 text-[#2FBF8F] mx-auto mb-1.5" />
+                  <p className="text-[12px] text-[#9AA4B2]">Wholesale MOQ</p>
+                  <p className="text-[14px] font-bold text-[#E5E9F0]">25 Units</p>
                 </div>
-                <div className="p-5 rounded-2xl bg-[#07070A] border border-white/10 text-center">
-                  <Ship className="h-6 w-6 text-cyan-400 mx-auto mb-2" />
-                  <p className="text-[13px] text-[#A1A1AA]">US Sea Ports</p>
-                  <p className="text-[15px] font-bold text-[#F5F5F7] mt-0.5">Houston / LA</p>
+                <div className="p-4 rounded-xl bg-[#161C25] border border-[rgba(148,163,184,0.1)] text-center">
+                  <Ship className="h-5 w-5 text-[#7C8DB5] mx-auto mb-1.5" />
+                  <p className="text-[12px] text-[#9AA4B2]">Target Ports</p>
+                  <p className="text-[14px] font-bold text-[#E5E9F0]">Houston / LA</p>
                 </div>
-              </div>
-
-              <div className="pt-8 border-t border-white/[0.08] flex items-center justify-center gap-8 text-[14px] text-[#6B6B75] font-mono">
-                <span>HS TARIFF: 9206.00</span>
-                <span>•</span>
-                <span>ORIGIN: JAIPUR, INDIA</span>
-                <span>•</span>
-                <span>INSPECTION: SGS CERTIFIED</span>
               </div>
             </div>
           )}
 
           {currentPage === 2 && (
-            <div className="rounded-card bg-[#0E0E12] border border-white/10 p-8 sm:p-10 space-y-8">
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-6">
-                <div>
-                  <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#F59E0B] font-semibold">Page 2 // Metallurgy & Acoustics</span>
-                  <h2 className="text-[22px] font-bold text-[#F5F5F7] mt-1">7-Metal Sacred Formulation & 432Hz Sound Engineering</h2>
-                </div>
-                <span className="px-4 py-1.5 rounded-full bg-white/[0.06] text-[14px] text-[#F5F5F7] font-mono">Bell Bronze (Kansa)</span>
+            <div className="rounded-panel bg-[#10151C] border border-[rgba(148,163,184,0.12)] p-6 space-y-6">
+              <div className="border-b border-[rgba(148,163,184,0.1)] pb-3">
+                <span className="text-[12px] font-mono uppercase tracking-eyebrow text-[#2FBF8F]">Page 2 // Metallurgy</span>
+                <h3 className="text-[18px] font-bold text-[#E5E9F0]">7-Metal Formulation & Frequency Certification</h3>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <h3 className="text-[15px] font-bold text-[#F5F5F7] uppercase tracking-wide">Chemical Composition Matrix</h3>
-                  <div className="space-y-3">
-                    {[
-                      { metal: 'Copper (Cu)', pct: '71.5%', note: 'Pure electrolytic copper for warm acoustic sustain' },
-                      { metal: 'Tin (Sn)', pct: '27.8%', note: 'High bell-metal grade for ring resonance (>45 sec)' },
-                      { metal: 'Zinc, Iron, Silver, Gold, Lead', pct: '0.7%', note: 'Traditional planetary 7-metal ritual alloy' }
-                    ].map((m, i) => (
-                      <div key={i} className="rounded-2xl bg-[#07070A] border border-white/10 p-5 flex justify-between items-center">
-                        <div>
-                          <p className="text-[15px] font-bold text-[#F5F5F7]">{m.metal}</p>
-                          <p className="text-[13px] text-[#A1A1AA] mt-0.5">{m.note}</p>
-                        </div>
-                        <span className="text-[16px] font-mono font-bold text-[#F59E0B]">{m.pct}</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  {[
+                    { metal: 'Copper (Cu)', pct: '71.5%', note: 'Acoustic sustain >45 sec' },
+                    { metal: 'Tin (Sn)', pct: '27.8%', note: 'High bell-metal bronze grade' },
+                    { metal: 'Trace Metals (Zn, Fe, Ag, Au)', pct: '0.7%', note: 'Planetary metals formulation' }
+                  ].map((m, i) => (
+                    <div key={i} className="p-3.5 rounded-xl bg-[#161C25] flex justify-between items-center text-[14px]">
+                      <div>
+                        <p className="font-semibold text-[#E5E9F0]">{m.metal}</p>
+                        <p className="text-[12px] text-[#9AA4B2]">{m.note}</p>
                       </div>
-                    ))}
-                  </div>
+                      <span className="font-mono font-bold text-[#2FBF8F]">{m.pct}</span>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="space-y-4">
-                  <h3 className="text-[15px] font-bold text-[#F5F5F7] uppercase tracking-wide">Solfeggio Frequency Chart (7 Chakras)</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[14px]">
-                    {[
-                      { chakra: 'Root Chakra', note: 'Note C (256Hz / 432Hz harmonic)' },
-                      { chakra: 'Sacral Chakra', note: 'Note D (288Hz harmonic)' },
-                      { chakra: 'Solar Plexus', note: 'Note E (324Hz harmonic)' },
-                      { chakra: 'Heart Chakra', note: 'Note F (341Hz harmonic)' },
-                      { chakra: 'Throat Chakra', note: 'Note G (384Hz harmonic)' },
-                      { chakra: 'Third Eye & Crown', note: 'Note A & B (432Hz & 486Hz)' },
-                    ].map((item, idx) => (
-                      <div key={idx} className="p-4 rounded-xl bg-[#07070A] border border-white/[0.06]">
-                        <p className="text-[14px] font-bold text-[#A5B4FC]">{item.chakra}</p>
-                        <p className="text-[13px] text-[#A1A1AA] font-mono mt-0.5">{item.note}</p>
-                      </div>
-                    ))}
-                  </div>
+                <div className="grid grid-cols-2 gap-2 text-[13px]">
+                  {['Root (C - 256Hz)', 'Sacral (D - 288Hz)', 'Solar (E - 324Hz)', 'Heart (F - 341Hz)', 'Throat (G - 384Hz)', 'Third Eye (A - 432Hz)'].map((c, i) => (
+                    <div key={i} className="p-3 rounded-lg bg-[#161C25] font-mono text-[#9AA4B2]">
+                      {c}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           )}
 
           {currentPage === 3 && (
-            <div className="rounded-card bg-[#0E0E12] border border-white/10 p-8 sm:p-10 space-y-8">
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-6">
-                <div>
-                  <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#34D399] font-semibold">Page 3 // Wholesale Price Matrix</span>
-                  <h2 className="text-[22px] font-bold text-[#F5F5F7] mt-1">2026 FOB & DDP Wholesale Pricing Schedule (USD)</h2>
-                </div>
-                <span className="px-4 py-1.5 rounded-full bg-[#34D399]/15 border border-[#34D399]/30 text-[14px] text-[#34D399] font-mono font-bold">MOQ 25 Units</span>
+            <div className="rounded-panel bg-[#10151C] border border-[rgba(148,163,184,0.12)] p-6 space-y-4">
+              <div className="border-b border-[rgba(148,163,184,0.1)] pb-3">
+                <span className="text-[12px] font-mono uppercase tracking-eyebrow text-[#2FBF8F]">Page 3 // Wholesale Pricing</span>
+                <h3 className="text-[18px] font-bold text-[#E5E9F0]">2026 FOB & DDP Schedule (USD)</h3>
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-[15px] border-collapse min-w-[700px]">
+                <table className="w-full text-left text-[14px]">
                   <thead>
-                    <tr className="border-b border-white/[0.08] text-[#A1A1AA] font-mono text-[13px] tracking-eyebrow uppercase">
-                      <th className="py-4 px-4">Item Code</th>
-                      <th className="py-4 px-4">Product Description</th>
-                      <th className="py-4 px-4">Diameter / Weight</th>
-                      <th className="py-4 px-4">FOB India</th>
-                      <th className="py-4 px-4">DDP Houston/LA</th>
-                      <th className="py-4 px-4">Suggested Retail</th>
+                    <tr className="border-b border-[rgba(148,163,184,0.1)] text-[#9AA4B2] font-mono text-[12px]">
+                      <th className="py-2.5">Item</th>
+                      <th className="py-2.5">Description</th>
+                      <th className="py-2.5">FOB India</th>
+                      <th className="py-2.5">DDP Houston</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/[0.06] text-[#A1A1AA]">
+                  <tbody className="divide-y divide-[rgba(148,163,184,0.06)] text-[#E5E9F0]">
                     {[
-                      { code: 'SB-07-CHK', desc: 'Hand-Hammered 7" Chakra Bowl + Suede Mallet', spec: '7.2 inch / 850g', fob: '$18.50', ddp: '$24.20', msrp: '$75.00' },
-                      { code: 'SB-09-MST', desc: 'Master Acoustic 9" Deep Meditation Bowl', spec: '9.4 inch / 1,450g', fob: '$34.00', ddp: '$42.50', msrp: '$135.00' },
-                      { code: 'SB-12-GNG', desc: 'Temple Grade 12" Resonant Gong Bowl', spec: '12.0 inch / 2,600g', fob: '$68.00', ddp: '$82.00', msrp: '$260.00' },
-                      { code: 'SET-07-SAC', desc: 'Complete 7-Chakra Tuned Master Set + Wooden Box', spec: '7 Bowls Set / 8.5kg', fob: '$185.00', ddp: '$225.00', msrp: '$650.00' },
-                      { code: 'DEC-BL-01', desc: 'Handcrafted Moradabad Brass Filigree Hanging Lamp', spec: '14 inch / 1.2kg', fob: '$22.00', ddp: '$28.50', msrp: '$95.00' }
+                      { code: 'SB-07-CHK', desc: '7" Chakra Bowl + Suede Mallet', fob: '$18.50', ddp: '$24.20' },
+                      { code: 'SB-09-MST', desc: '9" Master Healing Bowl', fob: '$34.00', ddp: '$42.50' },
+                      { code: 'SB-12-GNG', desc: '12" Resonant Gong Bowl', fob: '$68.00', ddp: '$82.00' },
+                      { code: 'SET-07-SAC', desc: '7-Bowl Chakra Set + Box', fob: '$185.00', ddp: '$225.00' }
                     ].map((row, i) => (
-                      <tr key={i} className="h-16 hover:bg-[#15151A] transition-colors">
-                        <td className="py-3 px-4 font-mono font-bold text-[#F59E0B]">{row.code}</td>
-                        <td className="py-3 px-4 font-semibold text-[#F5F5F7]">{row.desc}</td>
-                        <td className="py-3 px-4 font-mono text-[#A1A1AA]">{row.spec}</td>
-                        <td className="py-3 px-4 font-mono font-bold text-[#34D399]">{row.fob}</td>
-                        <td className="py-3 px-4 font-mono text-[#A5B4FC]">{row.ddp}</td>
-                        <td className="py-3 px-4 font-mono text-[#6B6B75] line-through">{row.msrp}</td>
+                      <tr key={i} className="h-12 font-mono">
+                        <td className="text-[#2FBF8F]">{row.code}</td>
+                        <td className="font-sans">{row.desc}</td>
+                        <td className="text-[#2FBF8F] font-bold">{row.fob}</td>
+                        <td className="text-[#7C8DB5]">{row.ddp}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-
-              <div className="p-5 rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[14px] text-[#F59E0B] flex items-center justify-between">
-                <span>Custom Laser Engraving on Mallets & Wooden Keepsake Boxes included on orders over $2,500.</span>
-                <span className="font-mono font-bold">Standard Lead Time: 18-24 Days</span>
-              </div>
             </div>
           )}
 
           {currentPage === 4 && (
-            <div className="rounded-card bg-[#0E0E12] border border-white/10 p-8 sm:p-10 space-y-8">
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-6">
-                <div>
-                  <span className="text-[13px] font-mono uppercase tracking-eyebrow text-[#6366F1] font-semibold">Page 4 // US Customs & Logistics</span>
-                  <h2 className="text-[22px] font-bold text-[#F5F5F7] mt-1">Export Compliance, Harmonized Codes & Freight Routes</h2>
-                </div>
-                <span className="px-4 py-1.5 rounded-full bg-white/[0.06] text-[14px] text-[#F5F5F7] font-mono">DDP & CIF Available</span>
+            <div className="rounded-panel bg-[#10151C] border border-[rgba(148,163,184,0.12)] p-6 space-y-4">
+              <div className="border-b border-[rgba(148,163,184,0.1)] pb-3">
+                <span className="text-[12px] font-mono uppercase tracking-eyebrow text-[#7C8DB5]">Page 4 // Customs</span>
+                <h3 className="text-[18px] font-bold text-[#E5E9F0]">HTS Classification & Sea Routes</h3>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-6 rounded-2xl bg-[#07070A] border border-white/10 space-y-2">
-                  <ShieldCheck className="h-7 w-7 text-[#34D399] mb-2" />
-                  <h3 className="text-[16px] font-bold text-[#F5F5F7]">US CBP Compliance</h3>
-                  <p className="text-[14px] text-[#A1A1AA] leading-relaxed">
-                    HTS Code: 9206.00.8000 (Percussion Musical Instruments). Duty Free or low MFN 2.9%. Full Certificate of Origin (India) provided.
-                  </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-[13px]">
+                <div className="p-4 rounded-xl bg-[#161C25] space-y-1">
+                  <ShieldCheck className="h-5 w-5 text-[#2FBF8F] mb-1" />
+                  <p className="font-semibold text-[#E5E9F0]">HTS 9206.00</p>
+                  <p className="text-[#9AA4B2]">Percussion Instruments. Low MFN duty with Certificate of Origin.</p>
                 </div>
-                <div className="p-6 rounded-2xl bg-[#07070A] border border-white/10 space-y-2">
-                  <Ship className="h-7 w-7 text-cyan-400 mb-2" />
-                  <h3 className="text-[16px] font-bold text-[#F5F5F7]">Ocean Freight Routes</h3>
-                  <p className="text-[14px] text-[#A1A1AA] leading-relaxed">
-                    Ocean LCL/FCL: Port of Nhava Sheva (IN) ➔ Port of Houston, TX (28 days) or Port of Los Angeles (26 days). Air Cargo: 4-6 days.
-                  </p>
+                <div className="p-4 rounded-xl bg-[#161C25] space-y-1">
+                  <Ship className="h-5 w-5 text-[#7C8DB5] mb-1" />
+                  <p className="font-semibold text-[#E5E9F0]">Nhava Sheva ➔ Houston</p>
+                  <p className="text-[#9AA4B2]">28 days ocean container transit. Long Beach: 26 days.</p>
                 </div>
-                <div className="p-6 rounded-2xl bg-[#07070A] border border-white/10 space-y-2">
-                  <Layers className="h-7 w-7 text-[#F59E0B] mb-2" />
-                  <h3 className="text-[16px] font-bold text-[#F5F5F7]">Export Packaging</h3>
-                  <p className="text-[14px] text-[#A1A1AA] leading-relaxed">
-                    Heavy-duty 5-ply corrugated carton with internal custom-molded high-density EVA foam cushions. Marine transit insurance included.
-                  </p>
+                <div className="p-4 rounded-xl bg-[#161C25] space-y-1">
+                  <Layers className="h-5 w-5 text-[#2FBF8F] mb-1" />
+                  <p className="font-semibold text-[#E5E9F0]">Export Packaging</p>
+                  <p className="text-[#9AA4B2]">5-ply cartons with molded EVA foam. Transit insurance included.</p>
                 </div>
               </div>
             </div>
           )}
-
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-8 py-5 border-t border-white/[0.08] bg-[#07070A]">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between px-6 py-3.5 border-t border-[rgba(148,163,184,0.12)] bg-[#0A0D12]">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/10 disabled:opacity-40 text-[#F5F5F7] transition-colors"
+              className="p-1 rounded-lg bg-[#161C25] hover:bg-[#1B222D] disabled:opacity-30 text-[#E5E9F0]"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-[14px] font-mono text-[#A1A1AA]">
-              Page <strong className="text-[#F5F5F7]">{currentPage}</strong> of {totalPages}
+            <span className="text-[13px] font-mono text-[#9AA4B2]">
+              {currentPage} / {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/10 disabled:opacity-40 text-[#F5F5F7] transition-colors"
+              className="p-1 rounded-lg bg-[#161C25] hover:bg-[#1B222D] disabled:opacity-30 text-[#E5E9F0]"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {onAttachToPitch && (
               <Button
                 variant="primary"
@@ -316,7 +267,7 @@ export const CatalogModal: React.FC<CatalogModalProps> = ({
                   onClose();
                 }}
               >
-                Attach to Active Campaign Pitch
+                Attach to Pitch
               </Button>
             )}
             <Button
@@ -324,7 +275,7 @@ export const CatalogModal: React.FC<CatalogModalProps> = ({
               size="sm"
               onClick={onClose}
             >
-              Close Viewer
+              Close
             </Button>
           </div>
         </div>

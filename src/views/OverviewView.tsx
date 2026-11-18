@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  Users,
-  CheckCircle2,
-  Sparkles,
-  Send,
-  CopyX,
-  MapPin,
-  Building2,
-  Flame,
-  Activity,
-  PhoneCall,
-  FileText,
-  Globe2,
+import { 
+  Users, 
+  CheckCircle2, 
+  Sparkles, 
+  Send, 
+  CopyX, 
+  MapPin, 
+  Building2, 
+  Activity, 
+  PhoneCall, 
+  FileText, 
   ArrowRight,
-  TrendingUp,
-  Ship,
   Compass
 } from 'lucide-react';
 import { Lead, SentEmailLog, ColdCallLog } from '../types';
@@ -43,40 +39,39 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
   onOpenCatalog,
   onSelectLead
 }) => {
-  // Metrics
   const totalLeads = leads.length;
   const duplicateLeads = leads.filter(l => l.isDuplicate);
   const cleanLeads = leads.filter(l => !l.isDuplicate);
-
+  
   const validEmails = cleanLeads.filter(l => l.emailStatus === 'Valid').length;
   const validEmailPct = cleanLeads.length > 0 ? Math.round((validEmails / cleanLeads.length) * 100) : 0;
-
+  
   const b2bQualified = cleanLeads.filter(l => l.aiClassification === 'B2B Business Buyer').length;
   const b2bPct = cleanLeads.length > 0 ? Math.round((b2bQualified / cleanLeads.length) * 100) : 0;
-
+  
   const outreachSent = cleanLeads.filter(l => l.outreachStatus !== 'Not Contacted').length;
   const phoneOnlyLeads = cleanLeads.filter(l => !l.email && l.phone).length;
   const repliesReceived = emailLogs.filter(e => e.deliveryStatus === 'Replied').length;
 
   return (
-    <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-300">
-
-      {/* 1. PAGE HERO */}
+    <div className="space-y-10 animate-in fade-in duration-200">
+      
+      {/* 1. PAGE HERO (Max 1 short sentence, text-4xl) */}
       <PageHero
-        eyebrow="Active Export Corridor // India ➔ United States"
-        eyebrowIcon={<Flame className="h-4 w-4 text-[#F59E0B]" />}
+        eyebrow="Corridor Pipeline // India ➔ US"
+        eyebrowIcon={<Compass className="h-3.5 w-3.5 text-[#2FBF8F]" />}
         title="Singing Bowls & Home Decor Export Engine"
         gradientWord="Export"
-        description="Configured for an Indian Export Mediator sourcing authentic 7-metal Tibetan acoustic bowls from Jaipur & Moradabad, discovering high-intent B2B showrooms, holistic distributors, and wellness chains across key US metro areas."
+        description="Autonomous buyer discovery, deliverability verification, and outreach pipeline for handcrafted Indian goods."
         actions={
           <>
             <Button
               variant="secondary"
               size="md"
               onClick={onOpenCatalog}
-              icon={<FileText className="h-4 w-4 text-[#F59E0B]" />}
+              icon={<FileText className="h-4 w-4 text-[#2FBF8F]" />}
             >
-              2026 Catalog Deck (4.2 MB)
+              Catalog Deck
             </Button>
             <Button
               variant="primary"
@@ -84,113 +79,101 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
               onClick={() => onNavigate('discovery')}
               icon={<Activity className="h-4 w-4" />}
             >
-              Launch Discovery Scan
+              Discovery Scan
             </Button>
           </>
         }
       />
 
-      {/* 2. DEDICATED TRADE ROUTE & CORRIDOR CARD */}
-      <Card padding="md" className="border-[#F59E0B]/20">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#F59E0B]/12 border border-[#F59E0B]/25 text-[#F59E0B]">
-              <Compass className="h-7 w-7" />
+      {/* 2. DEDICATED TRADE ROUTE CARD */}
+      <Card padding="sm" className="border-[rgba(148,163,184,0.12)]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(47,191,143,0.12)] text-[#2FBF8F]">
+              <Compass className="h-5 w-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <h3 className="text-[18px] font-bold text-[#F5F5F7]">
-                  Jaipur & Moradabad Guild ➔ Port of Houston & Los Angeles
-                </h3>
-                <span className="hidden sm:inline-block rounded-full bg-white/[0.08] px-3 py-0.5 text-[13px] font-mono text-[#A1A1AA]">
-                  HTS 9206.00
-                </span>
-              </div>
-              <p className="text-[15px] text-[#A1A1AA] mt-1">
-                LCL & FCL Ocean freight schedule: 26–28 days to US Gulf & West Coast ports. SGS inspected.
+            <div className="min-w-0">
+              <h3 className="text-[15px] font-bold text-[#E5E9F0] truncate">
+                Jaipur / Moradabad Guild ➔ Port of Houston & Los Angeles
+              </h3>
+              <p className="text-[13px] text-[#9AA4B2] truncate">
+                HTS 9206.00 • 26–28 days ocean container transit • SGS inspection certified
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 text-[14px] font-mono">
-            <div className="px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[#F5F5F7]">
-              <span className="text-[#6B6B75]">Origin:</span> Jaipur, IN
-            </div>
-            <ArrowRight className="h-4 w-4 text-[#6B6B75] hidden sm:block" />
-            <div className="px-4 py-2 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/25 text-[#F59E0B] font-bold">
-              <span className="text-[#A1A1AA] font-normal">Destinations:</span> TX, CA, AZ, NY
-            </div>
+          <div className="flex items-center gap-2 text-[13px] font-mono shrink-0">
+            <span className="px-3 py-1 rounded-control bg-[#161C25] text-[#E5E9F0]">Jaipur (IN)</span>
+            <ArrowRight className="h-3.5 w-3.5 text-[#667085]" />
+            <span className="px-3 py-1 rounded-control bg-[rgba(47,191,143,0.12)] text-[#2FBF8F] font-bold">
+              TX, CA, AZ, NY
+            </span>
           </div>
         </div>
       </Card>
 
-      {/* 3. BENTO GRID KPI CARDS */}
+      {/* 3. BENTO KPI CARDS (28-32px padding, clean typography) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-
-        {/* Card 1: 2x1 Hero Card */}
+        
         <StatCard
           isHero
-          title="Total Discovered Leads"
+          title="Discovered Leads"
           value={totalLeads}
           subValue="Verified US Prospects"
           badge={{ text: '+5 Today', variant: 'success' }}
-          icon={<Users className="h-6 w-6" />}
-          iconVariant="amber"
-          description="Aggregated and cross-checked across Google Maps Places, Apollo LinkedIn buyers, and ImportYeti customs manifests."
+          icon={<Users className="h-5 w-5" />}
+          iconVariant="emerald"
+          description="Aggregated and cross-checked across Google Places, Apollo, and ImportYeti."
           onClick={() => onNavigate('datamaster')}
         />
 
-        {/* Card 2: Deliverable Emails */}
         <StatCard
-          title="Validated Deliverable"
+          title="Deliverable Emails"
           value={validEmails}
           subValue={`(${validEmailPct}%)`}
           badge={{ text: 'Zero Bounce', variant: 'success' }}
-          icon={<CheckCircle2 className="h-6 w-6" />}
+          icon={<CheckCircle2 className="h-5 w-5" />}
           iconVariant="emerald"
-          description="MX DNS pinged and syntax-checked with zero disposable address risk."
+          description="MX DNS verified deliverable addresses."
           onClick={() => onNavigate('datamaster')}
         />
 
-        {/* Card 3: B2B Qualified (Gemini AI) */}
         <StatCard
-          title="B2B Qualified Buyers"
+          title="B2B Qualified"
           value={b2bQualified}
           subValue={`(${b2bPct}%)`}
-          badge={{ text: 'Gemini 3.8', variant: 'indigo' }}
-          icon={<Sparkles className="h-6 w-6" />}
-          iconVariant="indigo"
-          description="Commercial showrooms, wellness chains, and high-volume importers."
+          badge={{ text: 'Gemini 3.8', variant: 'slate' }}
+          icon={<Sparkles className="h-5 w-5" />}
+          iconVariant="slate"
+          description="Commercial showrooms and wholesale distributors."
           onClick={() => onNavigate('gemini')}
         />
 
-        {/* Card 4: Outreach Sent */}
         <StatCard
-          title="Outreach Pitches Sent"
+          title="Outreach Sent"
           value={outreachSent}
           subValue={`${repliesReceived} Replied`}
-          badge={{ text: 'Active Throttle', variant: 'amber' }}
-          icon={<Send className="h-6 w-6" />}
-          iconVariant="cyan"
-          description="Dispatched via Gmail API with 2026 Catalog attached."
+          badge={{ text: 'Active Throttle', variant: 'neutral' }}
+          icon={<Send className="h-5 w-5" />}
+          iconVariant="slate"
+          description="Gmail API proposals with catalog attached."
           onClick={() => onNavigate('outreach')}
         />
 
-        {/* Card 5: Duplicate Blocked */}
         <StatCard
           title="Duplicates Blocked"
           value={duplicateLeads.length}
-          subValue="Flagged Records"
+          subValue="Protected"
           badge={{ text: 'Domain Guard', variant: 'neutral' }}
-          icon={<CopyX className="h-6 w-6" />}
-          iconVariant="rose"
-          description="Prevents double-email spamming to the same showroom domain or phone."
+          icon={<CopyX className="h-5 w-5" />}
+          iconVariant="danger"
+          description="Prevents duplicate pitches to the same business."
           onClick={() => onNavigate('datamaster')}
         />
 
       </div>
 
-      {/* 4. STEPPER FUNNEL */}
+      {/* 4. WORKFLOW FUNNEL */}
       <PipelineFunnel
         onSelectStage={onNavigate}
         stats={{
@@ -203,53 +186,43 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
         }}
       />
 
-      {/* 5. LOWER DUAL BENTO: GEOGRAPHY & HIGH-INTENT SHOWROOMS */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-        {/* Left: US Geographic Clusters (5 COLS) */}
+      {/* 5. GEOGRAPHY & PRIORITY LEADS */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        {/* Left: US Metro Clusters (5 COLS) */}
         <div className="lg:col-span-5">
-          <Card padding="lg" className="h-full flex flex-col justify-between space-y-6">
+          <Card padding="md" className="h-full flex flex-col justify-between space-y-4">
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-[#F59E0B]/12 text-[#F59E0B]">
-                    <MapPin className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-[18px] font-bold text-[#F5F5F7]">
-                      Target Geographic Clusters
-                    </h3>
-                    <p className="text-[13px] text-[#A1A1AA] mt-0.5">
-                      Country ➔ State ➔ City Narrowing Strategy
-                    </p>
-                  </div>
+              <div className="flex items-center justify-between pb-3 border-b border-[rgba(148,163,184,0.1)] mb-4">
+                <div className="flex items-center gap-2.5">
+                  <MapPin className="h-4 w-4 text-[#2FBF8F]" />
+                  <h3 className="text-[16px] font-bold text-[#E5E9F0]">
+                    US Metro Target Hubs
+                  </h3>
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {[
-                  { state: 'Texas', cities: 'Houston, Austin, Dallas', leads: 7, pct: '44%', flag: 'Port of Houston' },
-                  { state: 'California', cities: 'Los Angeles, San Francisco, San Diego', leads: 4, pct: '25%', flag: 'Port of Long Beach' },
-                  { state: 'Arizona', cities: 'Sedona, Phoenix', leads: 2, pct: '13%', flag: 'Vortex Sound Capital' },
-                  { state: 'New York', cities: 'New York City, Brooklyn', leads: 2, pct: '13%', flag: 'Port of Newark' },
-                  { state: 'Colorado', cities: 'Denver, Boulder', leads: 1, pct: '6%', flag: 'Rocky Mtn Distributor' },
+                  { state: 'Texas', cities: 'Houston, Austin, Dallas', leads: 7, flag: 'Port of Houston' },
+                  { state: 'California', cities: 'Los Angeles, San Francisco', leads: 4, flag: 'Port of Long Beach' },
+                  { state: 'Arizona', cities: 'Sedona, Phoenix', leads: 2, flag: 'Vortex Sound Capital' },
+                  { state: 'New York', cities: 'New York City, Brooklyn', leads: 2, flag: 'Port of Newark' },
+                  { state: 'Colorado', cities: 'Denver, Boulder', leads: 1, flag: 'Rocky Mtn Hub' },
                 ].map((loc, i) => (
                   <div
                     key={i}
-                    className="p-4 rounded-xl bg-[#0E0E12] border border-white/[0.06] flex items-center justify-between hover:border-white/15 transition-colors"
+                    className="p-3 rounded-panel bg-[#161C25] flex items-center justify-between text-[13px]"
                   >
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[15px] font-bold text-[#F5F5F7]">{loc.state}</span>
-                        <span className="text-[13px] font-mono text-[#6B6B75]">({loc.flag})</span>
+                        <span className="font-semibold text-[#E5E9F0]">{loc.state}</span>
+                        <span className="text-[11px] font-mono text-[#667085]">({loc.flag})</span>
                       </div>
-                      <p className="text-[13px] text-[#A1A1AA] mt-0.5">{loc.cities}</p>
+                      <p className="text-[12px] text-[#9AA4B2]">{loc.cities}</p>
                     </div>
 
-                    <div className="text-right">
-                      <span className="text-[15px] font-bold text-[#F59E0B] font-mono">{loc.leads} leads</span>
-                      <p className="text-[13px] text-[#6B6B75] font-mono">{loc.pct}</p>
-                    </div>
+                    <span className="font-mono font-bold text-[#2FBF8F]">{loc.leads} leads</span>
                   </div>
                 ))}
               </div>
@@ -257,93 +230,85 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
 
             <Button
               variant="secondary"
-              size="md"
-              className="w-full mt-4"
+              size="sm"
+              className="w-full mt-2"
               onClick={() => onNavigate('discovery')}
-              icon={<ArrowRight className="h-4 w-4" />}
+              icon={<ArrowRight className="h-3.5 w-3.5" />}
               iconPosition="right"
             >
-              Explore Drill-Down in Discovery
+              Configure in Discovery
             </Button>
           </Card>
         </div>
 
-        {/* Right: High-Intent B2B Showrooms (7 COLS) */}
+        {/* Right: High-Intent Showrooms (7 COLS) */}
         <div className="lg:col-span-7">
-          <Card padding="lg" className="space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#6366F1]/12 text-[#A5B4FC]">
-                  <Sparkles className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-[18px] font-bold text-[#F5F5F7]">
-                    High-Intent B2B Showrooms Ready for Pitch
-                  </h3>
-                  <p className="text-[13px] text-[#A1A1AA] mt-0.5">
-                    Pre-cleared by Gemini 3.8 Flash for commercial wholesale volume
-                  </p>
-                </div>
+          <Card padding="md" className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[rgba(148,163,184,0.1)]">
+              <div className="flex items-center gap-2.5">
+                <Sparkles className="h-4 w-4 text-[#7C8DB5]" />
+                <h3 className="text-[16px] font-bold text-[#E5E9F0]">
+                  High-Intent B2B Showrooms
+                </h3>
               </div>
 
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onNavigate('outreach')}
-                icon={<ArrowRight className="h-4 w-4" />}
+                icon={<ArrowRight className="h-3.5 w-3.5" />}
                 iconPosition="right"
               >
                 Compose Campaign
               </Button>
             </div>
 
-            <div className="space-y-3.5">
+            <div className="space-y-2.5">
               {cleanLeads.filter(l => l.aiClassification === 'B2B Business Buyer').slice(0, 5).map((buyer) => (
                 <div
                   key={buyer.id}
                   onClick={() => onSelectLead(buyer)}
-                  className="group p-5 rounded-2xl bg-[#0E0E12] hover:bg-[#15151A] border border-white/[0.08] hover:border-[#F59E0B]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer transition-all"
+                  className="p-3.5 rounded-panel bg-[#161C25] hover:bg-[#1B222D] border border-[rgba(148,163,184,0.08)] hover:border-[rgba(148,163,184,0.2)] flex items-center justify-between gap-3 cursor-pointer transition-all"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] border border-white/10 text-[#F59E0B]">
-                      <Building2 className="h-5 w-5" />
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[rgba(47,191,143,0.1)] text-[#2FBF8F]">
+                      <Building2 className="h-4 w-4" />
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2.5">
-                        <h4 className="text-[16px] font-bold text-[#F5F5F7] group-hover:text-[#F59E0B] transition-colors">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-[14px] font-bold text-[#E5E9F0] truncate">
                           {buyer.companyName}
                         </h4>
-                        <span className="rounded-full bg-[#6366F1]/15 px-2.5 py-0.5 text-[12px] font-mono font-bold text-[#A5B4FC]">
-                          {buyer.b2bConfidence}% Match
+                        <span className="rounded-full bg-[rgba(124,141,181,0.15)] px-2 py-0.2 text-[11px] font-mono font-bold text-[#7C8DB5] whitespace-nowrap shrink-0">
+                          {buyer.b2bConfidence}%
                         </span>
                       </div>
-                      <p className="text-[14px] text-[#A1A1AA] mt-1">
-                        {buyer.contactName} ({buyer.title}) • <span className="text-[#F5F5F7] font-medium">{buyer.city}, {buyer.state}</span>
+                      <p className="text-[12px] text-[#9AA4B2] truncate">
+                        {buyer.contactName} • {buyer.city}, {buyer.state}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0">
                     <Badge
                       variant={buyer.emailStatus === 'Valid' ? 'success' : 'warning'}
                       size="sm"
                     >
                       {buyer.emailStatus}
                     </Badge>
-                    <ArrowRight className="h-4 w-4 text-[#6B6B75] group-hover:text-white transition-colors" />
+                    <ArrowRight className="h-3.5 w-3.5 text-[#667085]" />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Cold Call Alert Bar */}
             {phoneOnlyLeads > 0 && (
-              <div className="p-5 rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <PhoneCall className="h-5 w-5 text-[#F59E0B] shrink-0" />
-                  <p className="text-[14px] text-[#F5F5F7]">
-                    <strong>{phoneOnlyLeads} Google Maps Showrooms</strong> currently have verified phone numbers awaiting cold call email capture.
-                  </p>
+              <div className="p-3.5 rounded-panel bg-[#161C25] border border-[rgba(201,166,107,0.25)] flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 text-[13px] text-[#E5E9F0]">
+                  <PhoneCall className="h-4 w-4 text-[#C9A66B] shrink-0" />
+                  <span>
+                    <strong>{phoneOnlyLeads} phone leads</strong> in queue for direct calling.
+                  </span>
                 </div>
                 <Button
                   variant="primary"
@@ -351,7 +316,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                   onClick={() => onNavigate('dialer')}
                   className="shrink-0"
                 >
-                  Open Dialer Queue
+                  Dialer Queue
                 </Button>
               </div>
             )}
